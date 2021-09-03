@@ -1,42 +1,62 @@
 
 import SwiftUI
 
+struct Slot {
+    var isRecording = false
+}
 struct ContentView: View {
-    @State var record = false
+    @State var canRecord = false /// this is for enabling/disabling universal recording ability
+    
+    /// each of these has it's own individual `isRecording` state
+    @State var slots = [
+        Slot(),
+        Slot(),
+        Slot(),
+        Slot(),
+        Slot(),
+        Slot(),
+        Slot(),
+        Slot(),
+        Slot(),
+        Slot(),
+        Slot(),
+        Slot()
+    ]
+    
     var body: some View {
         VStack{
             HStack{
                 Button(action:{
-                    record.toggle()
+                    canRecord.toggle()
                 }) {
                     Image(systemName: "mic.circle")
                         .font(.system(size:45))
-                        .foregroundColor(.black)
+                        .foregroundColor(canRecord ? .red : .black)
                 }
                 Text("Press the mic, then select the slot you'd like to record on")
                 
             }
             HStack{
-                ButtonSlot()
-                ButtonSlot()
-                ButtonSlot()
+                ButtonSlot(slot: $slots[0], canRecord: $canRecord)
+                ButtonSlot(slot: $slots[1], canRecord: $canRecord)
+                ButtonSlot(slot: $slots[2], canRecord: $canRecord)
             }
             HStack{
-                ButtonSlot()
-                ButtonSlot()
-                ButtonSlot()
+                ButtonSlot(slot: $slots[3], canRecord: $canRecord)
+                ButtonSlot(slot: $slots[4], canRecord: $canRecord)
+                ButtonSlot(slot: $slots[5], canRecord: $canRecord)
                 
             }
             HStack{
-                ButtonSlot()
-                ButtonSlot()
-                ButtonSlot()
+                ButtonSlot(slot: $slots[6], canRecord: $canRecord)
+                ButtonSlot(slot: $slots[7], canRecord: $canRecord)
+                ButtonSlot(slot: $slots[8], canRecord: $canRecord)
                 
             }
             HStack{
-                ButtonSlot()
-                ButtonSlot()
-                ButtonSlot()
+                ButtonSlot(slot: $slots[9], canRecord: $canRecord)
+                ButtonSlot(slot: $slots[10], canRecord: $canRecord)
+                ButtonSlot(slot: $slots[11], canRecord: $canRecord)
                 
             }
             
@@ -46,19 +66,29 @@ struct ContentView: View {
     }
 }
 struct ButtonSlot: View {
-    @State private var isRecording = false
-    var contentView = ContentView()
+    @Binding var slot: Slot
+    @Binding var canRecord: Bool
+    
+    //    var contentView = ContentView() /// this is wrong!
+    
     var body: some View{
         Button(action:{
-            if contentView.record == true{
-                isRecording.toggle()
+            if canRecord {
+                slot.isRecording.toggle()
             }
         }) {
             ZStack{
                 Rectangle()
                     .cornerRadius(20)
-                    .foregroundColor(.gray)
-                if isRecording == true{
+                    .foregroundColor(canRecord ? .green : .gray)
+                    .animation(
+                        canRecord
+                            ? Animation.default.repeatForever(autoreverses: true)
+                            : .default, /// stop animation if `canRecord` is false
+                        value: canRecord
+                    )
+                
+                if slot.isRecording {
                     Image(systemName: "waveform.path")
                 }
             }
