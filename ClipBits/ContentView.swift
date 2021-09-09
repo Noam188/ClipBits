@@ -8,6 +8,7 @@ struct Slot {
 }
 
 struct ContentView: View {
+    @ObservedObject var audioRecorder: AudioRecorder
     @State var canRecord = false /// this is for enabling/disabling universal recording ability
     @State var oneIsRecording = false /// if one slot is recording
     
@@ -26,7 +27,6 @@ struct ContentView: View {
         Slot(),
         Slot()
     ]
-    
     var body: some View {
         VStack{
             HStack{
@@ -69,50 +69,9 @@ struct ContentView: View {
         
     }
 }
-struct ButtonSlot: View {
-    @Binding var slot: Slot
-    @Binding var canRecord: Bool /// whether recording is enabled for all slots
-    @Binding var oneIsRecording: Bool /// whether 1 slot is recording (disable recording for other slots)
-    
-    var body: some View{
-        Button(action:{
-            if canRecord {
-                if slot.isRecording {
-                    slot.isRecording = false
-                    oneIsRecording = false
-                } else if oneIsRecording {
-                    print("One slot is already recording")
-                } else {
-                    slot.isRecording = true
-                    oneIsRecording = true
-                }
-            }
-        }) {
-            ZStack{
-                Rectangle()
-                    .cornerRadius(20)
-                    .foregroundColor(
-                        (canRecord && (!oneIsRecording || slot.isRecording))
-                            ? .green
-                            : .gray
-                    )
-                    .animation(
-                        (canRecord && (!oneIsRecording || slot.isRecording))
-                            ? Animation.default.repeatForever(autoreverses: true)
-                            : .default, /// stop animation if `canRecord` is false
-                        value: (canRecord && (!oneIsRecording || slot.isRecording)) /// whenever this changes from True to False or vice versa, the animation will update
-                    )
-                
-                if slot.isRecording {
-                    Image(systemName: "waveform.path")
-                }
-            }
-        }
-    }
-}
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(audioRecorder: AudioRecorder())
+
     }
 }
