@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CE086A526EB0CA10013BB1A /* ClipBitsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE086A426EB0CA10013BB1A /* ClipBitsApp.swift */; };
 		C20266D626EA7FBE00BC9BF1 /* RecordingSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20266D526EA7FBE00BC9BF1 /* RecordingSlot.swift */; };
-		C263B13D26E07CC100E5E214 /* ClipBitsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C263B13C26E07CC100E5E214 /* ClipBitsApp.swift */; };
 		C263B13F26E07CC100E5E214 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C263B13E26E07CC100E5E214 /* ContentView.swift */; };
 		C263B14126E07CC400E5E214 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C263B14026E07CC400E5E214 /* Assets.xcassets */; };
 		C263B14426E07CC400E5E214 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C263B14326E07CC400E5E214 /* Preview Assets.xcassets */; };
@@ -16,7 +16,6 @@
 		C263B15A26E07CC400E5E214 /* ClipBitsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C263B15926E07CC400E5E214 /* ClipBitsUITests.swift */; };
 		C29246D126E9280400DAE41D /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246D026E9280400DAE41D /* AudioRecorder.swift */; };
 		C29246D526E9284200DAE41D /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246D426E9284200DAE41D /* AudioPlayer.swift */; };
-		C29246D726E9289800DAE41D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246D626E9289800DAE41D /* SceneDelegate.swift */; };
 		C29246D926E928E500DAE41D /* RecordingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246D826E928E500DAE41D /* RecordingDataModel.swift */; };
 		C29246DB26E929A100DAE41D /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246DA26E929A100DAE41D /* Extentions.swift */; };
 		C29246DD26E929B600DAE41D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246DC26E929B600DAE41D /* Helper.swift */; };
@@ -40,9 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3CE086A426EB0CA10013BB1A /* ClipBitsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipBitsApp.swift; sourceTree = "<group>"; };
 		C20266D526EA7FBE00BC9BF1 /* RecordingSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSlot.swift; sourceTree = "<group>"; };
 		C263B13926E07CC100E5E214 /* ClipBits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipBits.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C263B13C26E07CC100E5E214 /* ClipBitsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipBitsApp.swift; sourceTree = "<group>"; };
 		C263B13E26E07CC100E5E214 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C263B14026E07CC400E5E214 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C263B14326E07CC400E5E214 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -55,7 +54,6 @@
 		C263B15B26E07CC400E5E214 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C29246D026E9280400DAE41D /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		C29246D426E9284200DAE41D /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
-		C29246D626E9289800DAE41D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C29246D826E928E500DAE41D /* RecordingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDataModel.swift; sourceTree = "<group>"; };
 		C29246DA26E929A100DAE41D /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		C29246DC26E929B600DAE41D /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -109,10 +107,9 @@
 		C263B13B26E07CC100E5E214 /* ClipBits */ = {
 			isa = PBXGroup;
 			children = (
+				3CE086A426EB0CA10013BB1A /* ClipBitsApp.swift */,
 				C29246D026E9280400DAE41D /* AudioRecorder.swift */,
 				C29246D426E9284200DAE41D /* AudioPlayer.swift */,
-				C29246D626E9289800DAE41D /* SceneDelegate.swift */,
-				C263B13C26E07CC100E5E214 /* ClipBitsApp.swift */,
 				C263B13E26E07CC100E5E214 /* ContentView.swift */,
 				C20266D526EA7FBE00BC9BF1 /* RecordingSlot.swift */,
 				C29246D826E928E500DAE41D /* RecordingDataModel.swift */,
@@ -287,8 +284,7 @@
 				C20266D626EA7FBE00BC9BF1 /* RecordingSlot.swift in Sources */,
 				C29246DD26E929B600DAE41D /* Helper.swift in Sources */,
 				C29246D126E9280400DAE41D /* AudioRecorder.swift in Sources */,
-				C263B13D26E07CC100E5E214 /* ClipBitsApp.swift in Sources */,
-				C29246D726E9289800DAE41D /* SceneDelegate.swift in Sources */,
+				3CE086A526EB0CA10013BB1A /* ClipBitsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,7 +443,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ClipBits/Preview Content\"";
-				DEVELOPMENT_TEAM = W49XF2RPJB;
+				DEVELOPMENT_TEAM = YA533DMD5J;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ClipBits/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -469,7 +465,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ClipBits/Preview Content\"";
-				DEVELOPMENT_TEAM = W49XF2RPJB;
+				DEVELOPMENT_TEAM = YA533DMD5J;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ClipBits/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

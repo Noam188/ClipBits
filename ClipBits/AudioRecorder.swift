@@ -23,7 +23,7 @@ class AudioRecorder: NSObject, ObservableObject {
         }
     }
     
-    func startRecording() {
+    func startRecording(recordingName: String) {
         let recordingSession = AVAudioSession.sharedInstance()
         
         do {
@@ -33,8 +33,18 @@ class AudioRecorder: NSObject, ObservableObject {
             print("Failed to set up recording session")
         }
         
-        let documentPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let audioFilename = documentPath.appendingPathComponent("\(Date().toString(dateFormat: "dd-MM-YY 'at' HH:mm:ss")).m4a")
+        let fileManager = FileManager.default
+        let documentPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let audioFilePath = documentPath.appendingPathComponent("\(recordingName).m4a")
+        
+        if fileManager.fileExists(atPath: audioFilePath.path) {
+            do{
+                try fileManager.removeItem(at: audioFilePath)
+            } catch let error {
+                print("An error occurred: \(error)")
+            }
+        }
+        
         
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -44,7 +54,7 @@ class AudioRecorder: NSObject, ObservableObject {
         ]
         
         do {
-            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            audioRecorder = try AVAudioRecorder(url: audioFilePath, settings: settings)
             audioRecorder.record()
 
             recording = true
@@ -74,6 +84,7 @@ class AudioRecorder: NSObject, ObservableObject {
         recordings.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedAscending})
         
         objectWillChange.send(self)
+        
     }
     
     func deleteRecording(urlsToDelete: [URL]) {

@@ -8,17 +8,22 @@ struct ButtonSlot: View {
     @State var beenRecorded = false
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
-    var audioURL: URL
+    var index: Int
     
     var body: some View{
         Button(action:{
             if canRecord == false{
                 if audioPlayer.isPlaying == false {
-                    self.audioPlayer.startPlayback(audio: self.audioURL)
+                    
+                    if let recording = audioRecorder.recordings.first { $0.fileURL.lastPathComponent == "\(index).m4a" } {
+                        self.audioPlayer.startPlayback(audio: recording.fileURL)
+                    } else {
+                        print("No audio url was saved")
+                    }
                 }
             }
             if canRecord {
-                self.audioRecorder.startRecording()
+                self.audioRecorder.startRecording(recordingName: "\(index)")
                 beenRecorded = true
                 if slot.isRecording {
                     self.audioRecorder.stopRecording()
