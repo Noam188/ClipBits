@@ -80,6 +80,9 @@ struct ButtonSlot: View {
                 if slot.isRecording {
                     slot.isRecording = false
                     oneIsRecording = false
+                    
+                    /// literally just add it right here
+                    
                 } else if oneIsRecording {
                     print("One slot is already recording")
                 } else {
