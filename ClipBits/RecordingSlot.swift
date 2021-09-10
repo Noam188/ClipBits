@@ -14,17 +14,24 @@ struct ButtonSlot: View {
         Button(action:{
             if canRecord == false{
                 if audioPlayer.isPlaying == false {
-                    
-                    if let recording = audioRecorder.recordings.first { $0.fileURL.lastPathComponent == "\(index).m4a" } {
+//                    if let recording = audioRecorder.recordings.first { $0.fileURL.lastPathComponent == "\(index).m4a" } {
+//                        self.audioPlayer.startPlayback(audio: recording.fileURL)
+//                    } else {
+//                        print("No audio url was saved")
+//                    }
+                    if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
                         self.audioPlayer.startPlayback(audio: recording.fileURL)
                     } else {
                         print("No audio url was saved")
                     }
                 }
             }
-            if canRecord {
-                self.audioRecorder.startRecording(recordingName: "\(index)")
+            if canRecord && oneIsRecording == false{
                 beenRecorded = true
+                self.audioRecorder.startRecording(recordingName: "\(index)")
+
+            }
+            if canRecord {
                 if slot.isRecording {
                     self.audioRecorder.stopRecording()
                     slot.isRecording = false
