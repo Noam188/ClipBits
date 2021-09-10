@@ -11,9 +11,6 @@ struct ButtonSlot: View {
     var audioURL: URL
     
     var body: some View{
-        ForEach(audioRecorder.recordings, id: \.createdAt) { recording in
-            RecordingRow(audioURL: recording.fileURL)
-        }
         Button(action:{
             if canRecord == false{
                 if audioPlayer.isPlaying == false {
