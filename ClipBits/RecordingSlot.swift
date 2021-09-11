@@ -5,25 +5,25 @@ struct ButtonSlot: View {
     @Binding var slot: Slot
     @Binding var canRecord: Bool /// whether recording is enabled for all slots
     @Binding var oneIsRecording: Bool /// whether 1 slot is recording (disable recording for other slots)
+    @Binding var edit: Bool
     @State var beenRecorded = false
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
-    
     var body: some View{
         Button(action:{
             if canRecord == false{
+                if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
+                    self.audioPlayer.startPlayback(audio: recording.fileURL)
+                } else {
+                    print("No audio url was saved")
+                }
                 if audioPlayer.isPlaying == false {
-//                    if let recording = audioRecorder.recordings.first { $0.fileURL.lastPathComponent == "\(index).m4a" } {
+//                    if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
 //                        self.audioPlayer.startPlayback(audio: recording.fileURL)
 //                    } else {
 //                        print("No audio url was saved")
 //                    }
-                    if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
-                        self.audioPlayer.startPlayback(audio: recording.fileURL)
-                    } else {
-                        print("No audio url was saved")
-                    }
                 }
             }
             if canRecord && oneIsRecording == false{
@@ -47,6 +47,7 @@ struct ButtonSlot: View {
                 }
             }
         }) {
+            VStack{
             ZStack{
                 Rectangle()
                     .cornerRadius(20)
@@ -61,13 +62,25 @@ struct ButtonSlot: View {
                             : .default, /// stop animation if `canRecord` is false
                         value: (canRecord && (!oneIsRecording || slot.isRecording)) /// whenever this changes from True to False or vice versa, the animation will update
                     )
-                
+               
+                   
                 if beenRecorded == true{
                     Image(systemName: "waveform.path")
                         .foregroundColor(.black)
                         .font(.system(size: 60))
                 }
             }
+                if edit == true{
+                    Button(action:{
+                        slot.isChecked.toggle()
+                    }) {
+                        Image(systemName: slot.isChecked ? "checkmark.circle.fill" : "checkmark.circle")
+                            .font(.system(size:30))
+                    }
+                 
+                }
+                
+        }
         }
     }
 }
