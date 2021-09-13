@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var canRecord = false /// this is for enabling/disabling universal recording ability
     @State var oneIsRecording = false /// if one slot is recording
     @State var edit = false
+    @State var willDelete = false
     @State var slots = [
         Slot(),
         Slot(),
@@ -27,13 +28,6 @@ struct ContentView: View {
         Slot(),
         Slot()
     ]
-    func delete(at offsets: IndexSet) {
-        var urlsToDelete = [URL]()
-        for index in offsets {
-            urlsToDelete.append(audioRecorder.recordings[index].fileURL)
-        }
-        audioRecorder.deleteRecording(urlsToDelete: urlsToDelete)
-    }
     func hasAtLeastOneChecked() -> Bool {
         var numberOfChecked = 0
         for slot in slots {
@@ -54,8 +48,9 @@ struct ContentView: View {
                 Button(action:{
                     if hasAtLeastOneChecked() {
                       edit.toggle()
+                      willDelete == false
                     } else {
-                    
+                      willDelete == true
                       edit.toggle()
                     }
                 }) {
@@ -81,26 +76,26 @@ struct ContentView: View {
                 
             }
             HStack{
-                ButtonSlot(slot: $slots[0], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 0)
-                ButtonSlot(slot: $slots[1], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, audioRecorder: audioRecorder, index: 1)
-                ButtonSlot(slot: $slots[2], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, audioRecorder: audioRecorder, index: 2)
+                ButtonSlot(slot: $slots[0], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 0)
+                ButtonSlot(slot: $slots[1], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, willDelete: $willDelete, audioRecorder: audioRecorder, index: 1)
+                ButtonSlot(slot: $slots[2], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, willDelete: $willDelete, audioRecorder: audioRecorder, index: 2)
             }
             HStack{
-                ButtonSlot(slot: $slots[3], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 3)
-                ButtonSlot(slot: $slots[4], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 4)
-                ButtonSlot(slot: $slots[5], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 5)
+                ButtonSlot(slot: $slots[3], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 3)
+                ButtonSlot(slot: $slots[4], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 4)
+                ButtonSlot(slot: $slots[5], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 5)
                 
             }
             HStack{
-                ButtonSlot(slot: $slots[6], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 6)
-                ButtonSlot(slot: $slots[7], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 7)
-                ButtonSlot(slot: $slots[8], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 8)
+                ButtonSlot(slot: $slots[6], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 6)
+                ButtonSlot(slot: $slots[7], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 7)
+                ButtonSlot(slot: $slots[8], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 8)
                 
             }
             HStack{
-                ButtonSlot(slot: $slots[9], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 9)
-                ButtonSlot(slot: $slots[10], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 10)
-                ButtonSlot(slot: $slots[11], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  audioRecorder: audioRecorder, index: 11)
+                ButtonSlot(slot: $slots[9], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 9)
+                ButtonSlot(slot: $slots[10], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 10)
+                ButtonSlot(slot: $slots[11], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit,  willDelete: $willDelete, audioRecorder: audioRecorder, index: 11)
                 
             }
             

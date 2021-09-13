@@ -6,10 +6,26 @@ struct ButtonSlot: View {
     @Binding var canRecord: Bool /// whether recording is enabled for all slots
     @Binding var oneIsRecording: Bool /// whether 1 slot is recording (disable recording for other slots)
     @Binding var edit: Bool
+    @Binding var willDelete: Bool
     @State var beenRecorded = false
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
+//    func delete(at offsets: IndexSet) {
+//        var urlsToDelete = [URL]()
+//        for index in offsets {
+//            urlsToDelete.append(audioRecorder.recordings[index].fileURL)
+//        }
+//        audioRecorder.deleteRecording(urlsToDelete: urlsToDelete)
+//    }
+    func delete() {
+        var urlsToDelete = [URL]()
+            urlsToDelete.append(audioRecorder.recordings[index].fileURL)
+        audioRecorder.deleteRecording(urlsToDelete: urlsToDelete)
+    }
+    if willDelete == true && slot.isChecked{
+        delete()
+    }
     var body: some View{
         Button(action:{
             if canRecord == false{
