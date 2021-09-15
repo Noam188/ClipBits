@@ -6,13 +6,12 @@ struct ButtonSlot: View {
     @Binding var canRecord: Bool /// whether recording is enabled for all slots
     @Binding var oneIsRecording: Bool /// whether 1 slot is recording (disable recording for other slots)
     @Binding var edit: Bool
-    @Binding var beenDeleted: Bool
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
     var body: some View{
         Button(action:{
-            if canRecord == false && beenDeleted == false && edit == false{
+            if canRecord == false && edit == false && slot.beenRecorded == true{
                 if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
                     self.audioPlayer.startPlayback(audio: recording.fileURL)
                 } else {
@@ -23,8 +22,7 @@ struct ButtonSlot: View {
                 }
             }
             if canRecord && oneIsRecording == false{
-                beenDeleted = false
-                slot.beenRecorded = true
+                UserDefaults.standard.set(true, forKey: slot.id.uuidString)
                 self.audioRecorder.startRecording(recordingName: "\(index)")
                 
             }
