@@ -4,13 +4,16 @@ import SwiftUI
 /// put each slot's state in a reusable struct, makes things more organized
 /// plus you can also add other properties that are independent to each slot
 struct Slot: Identifiable {
-    var id = UUID()
+    var id: String
     var isChecked = false
     var isRecording = false
     var beenRecorded: Bool?
     
-    init() {
-        beenRecorded = UserDefaults.standard.bool(forKey: id.uuidString)
+    init(id: String) {
+        self.id = id
+        self.isChecked = false
+        self.isRecording = false
+        self.beenRecorded = UserDefaults.standard.bool(forKey: id)
     }
 }
 
@@ -20,19 +23,20 @@ struct ContentView: View {
     @State var oneIsRecording = false /// if one slot is recording
     @State var edit = false
     @State var slots = [
-        Slot(),
-        Slot(),
-        Slot(),
-        Slot(),
-        Slot(),
-        Slot(),
-        Slot(),
-        Slot(),
-        Slot(),
-        Slot(),
-        Slot(),
-        Slot()
+        Slot(id: "slot0"),
+        Slot(id: "slot1"),
+        Slot(id: "slot2"),
+        Slot(id: "slot3"),
+        Slot(id: "slot4"),
+        Slot(id: "slot5"),
+        Slot(id: "slot6"),
+        Slot(id: "slot7"),
+        Slot(id: "slot8"),
+        Slot(id: "slot9"),
+        Slot(id: "slot10"),
+        Slot(id: "slot11")
     ]
+    
     func hasAtLeastOneChecked() -> Bool {
         var numberOfChecked = 0
         for slot in slots {

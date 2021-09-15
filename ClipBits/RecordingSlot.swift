@@ -22,7 +22,7 @@ struct ButtonSlot: View {
                 }
             }
             if canRecord && oneIsRecording == false{
-                UserDefaults.standard.set(true, forKey: slot.id.uuidString)
+                UserDefaults.standard.set(true, forKey: slot.id)
                 self.audioRecorder.startRecording(recordingName: "\(index)")
                 
             }
