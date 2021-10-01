@@ -13,14 +13,14 @@ struct ButtonSlot: View {
     var index: Int
     var body: some View{
         Button(action:{
-            if canRecord == false && edit == false && slot.beenRecorded == true && trim == false{
+            if canRecord == false && edit == false && slot.beenRecorded == true{
                 if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
                     self.audioPlayer.startPlayback(audio: recording.fileURL)
                 } else {
                     print("No audio url was saved")
                 }
                 if audioPlayer.isPlaying == false {
-                  print("audio is playing")
+                    print("audio is playing")
                 }
             }
             if canRecord && oneIsRecording == false{
@@ -30,7 +30,7 @@ struct ButtonSlot: View {
                 
             }
             if trim && oneIsTrimming == false{
-               beenTrimmed = true
+                beenTrimmed = true
             }
             if canRecord {
                 if slot.isRecording {
@@ -48,10 +48,10 @@ struct ButtonSlot: View {
                 }
             }
             if trim == true{
-                if slot.isTrimming{
-                slot.isTrimming = false
-                oneIsTrimming = false
-                trim = false
+                if slot.isTrimming && slot.beenRecorded == true{
+                    if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
+                        self.audioPlayer.startPlayback(audio: recording.fileURL)
+                    }
                 }
                 else if oneIsTrimming {
                     print("One slot is already trimming")
@@ -67,47 +67,56 @@ struct ButtonSlot: View {
             VStack{
                 ZStack{
                     if trim == false{
-                    Rectangle()
-                        .cornerRadius(20)
-                        .foregroundColor(
-                            (canRecord && (!oneIsRecording || slot.isRecording))
-                                ? .red
-                                : .gray
-                        )
-
-                        .animation(
-                            (canRecord && (!oneIsRecording || slot.isRecording))
-                                ? Animation.default.repeatForever(autoreverses: true)
-                                : .default, /// stop animation if `canRecord` is false
-                            value: (canRecord && (!oneIsRecording || slot.isRecording)) /// whenever this changes from True to False or vice versa, the animation will update
-                        )
-                    if slot.beenRecorded == true{
-                        Image(systemName: "waveform.path")
-                            .foregroundColor(.black)
-                            .font(.system(size: 60))
+                        Rectangle()
+                            .cornerRadius(20)
+                            .foregroundColor(
+                                (canRecord && (!oneIsRecording || slot.isRecording))
+                                    ? .red
+                                    : .gray
+                            )
+                            
+                            .animation(
+                                (canRecord && (!oneIsRecording || slot.isRecording))
+                                    ? Animation.default.repeatForever(autoreverses: true)
+                                    : .default, /// stop animation if `canRecord` is false
+                                value: (canRecord && (!oneIsRecording || slot.isRecording)) /// whenever this changes from True to False or vice versa, the animation will update
+                            )
+                        if slot.beenRecorded == true{
+                            Image(systemName: "waveform.path")
+                                .foregroundColor(.black)
+                                .font(.system(size: 60))
+                        }
                     }
-                }
                     if trim == true{
-                    Rectangle()
-                        .cornerRadius(20)
-                        .foregroundColor(
-                            (trim && (slot.beenRecorded == true || slot.isRecording))
-                                ? .yellow
-                                : .gray
-                        )
-
-                        .animation(
-                            (trim && (slot.beenRecorded == true || slot.isRecording))
-                                ? Animation.default.repeatForever(autoreverses: true)
-                                : .default, /// stop animation if `canRecord` is false
-                            value: (trim && (slot.beenRecorded == true || slot.isRecording)) /// whenever this changes from True to False or vice versa, the animation will update
-                        )
-                    if slot.beenRecorded == true{
-                        Image(systemName: "waveform.path")
-                            .foregroundColor(.black)
-                            .font(.system(size: 60))
+                        Rectangle()
+                            .cornerRadius(20)
+                            .foregroundColor(
+                                (trim && oneIsTrimming == false && slot.beenRecorded == true)
+                                    ? .yellow
+                                    : .gray
+                            )
+                            
+                            .animation(
+                                (trim && oneIsTrimming == false && slot.beenRecorded == true)
+                                    ? Animation.default.repeatForever(autoreverses: true)
+                                    : .default, /// stop animation if `canRecord` is false
+                                value: (trim && oneIsTrimming == false && slot.beenRecorded == true) /// whenever this changes from True to False or vice versa, the animation will update
+                            )
+                        if slot.beenRecorded == true{
+                            Image(systemName: "waveform.path")
+                                .foregroundColor(.black)
+                                .font(.system(size: 60))
+                        }
                     }
-                }
+                    if trim && slot.isTrimming{
+                        Rectangle()
+                            .overlay(
+                                Image("Image")
+                                .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            )
+                            .cornerRadius(20)
+                    }
                 }
                 if edit == true {
                     Button(action:{

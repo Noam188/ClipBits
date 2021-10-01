@@ -62,6 +62,7 @@ struct ContentView: View {
                                 for index in slots.indices{
                                     if slots[index].isChecked{
                                         slots[index].beenRecorded = false
+                                        UserDefaults.standard.set(false, forKey: slots[index].id)
                                     }
                                     slots[index].isChecked = false
                                 }
@@ -98,6 +99,19 @@ struct ContentView: View {
                     Image(systemName: "timeline.selection")
                         .font(.system(size:40))
                         .foregroundColor(trim ? .yellow : .black)
+                }
+                if oneIsTrimming && trim{
+                    Button(action:{
+                        trim = false
+                        oneIsTrimming = false
+                        for index in slots.indices{
+                            if slots[index].isTrimming{
+                                slots[index].isTrimming = false
+                            }
+                        }
+                    }) {
+                        //Enter UI here
+                    }
                 }
             }
             HStack{
