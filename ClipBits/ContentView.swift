@@ -56,6 +56,24 @@ struct ContentView: View {
     var body: some View {
         VStack{
             HStack{
+                Spacer()
+            if oneIsTrimming && trim{
+                Button(action:{
+                    trim = false
+                    oneIsTrimming = false
+                    for index in slots.indices{
+                        if slots[index].isTrimming{
+                            slots[index].isTrimming = false
+                        }
+                    }
+                }) {
+                    Text("Save")
+                        
+                }
+            }
+        }
+            Spacer()
+            HStack{
                 Button(action:{
                         if canRecord == false && trim == false{
                             if hasAtLeastOneChecked() {
@@ -100,19 +118,19 @@ struct ContentView: View {
                         .font(.system(size:40))
                         .foregroundColor(trim ? .yellow : .black)
                 }
-                if oneIsTrimming && trim{
-                    Button(action:{
-                        trim = false
-                        oneIsTrimming = false
-                        for index in slots.indices{
-                            if slots[index].isTrimming{
-                                slots[index].isTrimming = false
-                            }
-                        }
-                    }) {
-                        //Enter UI here
-                    }
-                }
+                //                if oneIsTrimming && trim{
+                //                    Button(action:{
+                //                        trim = false
+                //                        oneIsTrimming = false
+                //                        for index in slots.indices{
+                //                            if slots[index].isTrimming{
+                //                                slots[index].isTrimming = false
+                //                            }
+                //                        }
+                //                    }) {
+                //                        //Enter UI here
+                //                    }
+                //                }
             }
             HStack{
                 ButtonSlot(slot: $slots[0], canRecord: $canRecord, oneIsRecording: $oneIsRecording, oneIsTrimming: $oneIsTrimming, edit: $edit, trim: $trim,  audioRecorder: audioRecorder, index: 0)
