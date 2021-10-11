@@ -7,13 +7,19 @@ struct ButtonSlot: View {
     @Binding var oneIsTrimming: Bool
     @Binding var edit: Bool
     @Binding var trim: Bool
+    @Binding var anim: Bool
+    @State private var fade = false
+    @State private var fade2 = false
     @State var beenTrimmed = false
     @State var width: CGFloat = 0
-    @State var width1: CGFloat = 15
+    @State var width1: CGFloat = UIScreen.main.bounds.width / 3 - 45
     @State var totalWidth = UIScreen.main.bounds.width / 3 - 45
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
+    func getValue(val:CGFloat)->String{
+        return String(format: "%.2f", val)
+    }
     var body: some View{
         VStack{
             Button(action:{
@@ -52,7 +58,7 @@ struct ButtonSlot: View {
                     }
                 }
                 if trim == true{
-                    if slot.isTrimming && slot.beenRecorded == true{
+                    if slot.isTrimming{
                         if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
                             self.audioPlayer.startPlayback(audio: recording.fileURL)
                         }
@@ -66,51 +72,39 @@ struct ButtonSlot: View {
                     }
                     
                     
+                    
                 }
             }) {
                 VStack{
                     ZStack{
-                        if trim == false{
                             Rectangle()
                                 .cornerRadius(20)
-                                .foregroundColor(
-                                    (canRecord && (!oneIsRecording || slot.isRecording))
-                                        ? .red
-                                        : .gray
-                                )
-                                
-                                .animation(
-                                    (canRecord && (!oneIsRecording || slot.isRecording))
-                                        ? Animation.default.repeatForever(autoreverses: true)
-                                        : .default, /// stop animation if `canRecord` is false
-                                    value: (canRecord && (!oneIsRecording || slot.isRecording)) /// whenever this changes from True to False or vice versa, the animation will update
-                                )
-                            if slot.beenRecorded == true{
-                                Image(systemName: "waveform.path")
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 60))
-                            }
+                                .foregroundColor(.gray)
+                        if canRecord && oneIsRecording == false || slot.isRecording{
+                            Rectangle()
+                                .cornerRadius(20)
+                                .foregroundColor(.red)
+                                .onAppear(){
+                                    withAnimation(Animation.easeIn(duration: 0.6).repeatForever(autoreverses: true)){
+                                        fade2.toggle()
+                                    }
+                                }.opacity(fade2 ? 0 : 1)
                         }
-                        if trim == true{
+
+                        if trim && oneIsTrimming == false && slot.beenRecorded == true{
                             Rectangle()
                                 .cornerRadius(20)
-                                .foregroundColor(
-                                    (trim && oneIsTrimming == false && slot.beenRecorded == true)
-                                        ? .yellow
-                                        : .gray
-                                )
-                                
-                                .animation(
-                                    (trim && oneIsTrimming == false && slot.beenRecorded == true)
-                                        ? Animation.default.repeatForever(autoreverses: true)
-                                        : .default, /// stop animation if `canRecord` is false
-                                    value: (trim && oneIsTrimming == false && slot.beenRecorded == true) /// whenever this changes from True to False or vice versa, the animation will update
-                                )
-                            if slot.beenRecorded == true{
-                                Image(systemName: "waveform.path")
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 60))
-                            }
+                                .foregroundColor(.yellow)
+                                .onAppear(){
+                                    withAnimation(Animation.easeIn(duration: 0.6).repeatForever(autoreverses: true)){
+                                        fade.toggle()
+                                    }
+                                }.opacity(fade ? 0 : 1)
+                        }
+                        if slot.beenRecorded == true{
+                            Image(systemName: "waveform.path")
+                                .foregroundColor(.black)
+                                .font(.system(size: 60))
                         }
                     }
                 }
