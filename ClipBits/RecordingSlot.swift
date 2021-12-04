@@ -8,12 +8,16 @@ struct ButtonSlot: View {
     @Binding var edit: Bool
     @Binding var trim: Bool
     @Binding var anim: Bool
+    @Binding var isActive: Bool
+    @Binding var loopState: Bool
     @State private var fade = false
-    @State private var fade2 = false
     @State var beenTrimmed = false
     @State var width: CGFloat = 0
     @State var width1: CGFloat = UIScreen.main.bounds.width / 3 - 45
     @State var totalWidth = UIScreen.main.bounds.width / 3 - 45
+    @State var isInfinite = false
+    @State var numberofTimesLooped = 10
+    @State var myInt = 0
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
@@ -23,88 +27,59 @@ struct ButtonSlot: View {
     var body: some View{
         VStack{
             Button(action:{
-                if canRecord == false && edit == false && slot.beenRecorded == true{
+                if !canRecord && !edit && slot.beenRecorded == true{
+                    audioPlayer.audioPlayer?.numberOfLoops = -1
                     if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
                         self.audioPlayer.startPlayback(audio: recording.fileURL)
-                    } else {
+                    }
+                    
+                    else {
                         print("No audio url was saved")
                     }
+                    
                     if audioPlayer.isPlaying == false {
                         print("audio is playing")
                     }
+                    
                 }
                 if canRecord && oneIsRecording == false{
                     slot.beenRecorded = true
                     UserDefaults.standard.set(true, forKey: slot.id)
-                    self.audioRecorder.startRecording(recordingName: "\(index)")
-                    
-                }
-                if trim && oneIsTrimming == false{
-                    beenTrimmed = true
-                }
-                if canRecord {
-                    if slot.isRecording {
-                        self.audioRecorder.stopRecording()
-                        slot.isRecording = false
-                        oneIsRecording = false
-                        canRecord = false
-                    }
-                    else if oneIsRecording {
-                        print("One slot is already recording")
-                    }
-                    else {
-                        slot.isRecording = true
-                        oneIsRecording = true
-                    }
-                }
-                if trim == true{
-                    if slot.isTrimming{
-                        if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
-                            self.audioPlayer.startPlayback(audio: recording.fileURL)
-                        }
-                    }
-                    else if oneIsTrimming {
-                        print("One slot is already trimming")
-                    }
-                    else{
-                        slot.isTrimming = true
-                        oneIsTrimming = true
-                    }
-                    
-                    
-                    
+                    isActive = true
                 }
             }) {
                 VStack{
                     ZStack{
-                            Rectangle()
-                                .cornerRadius(20)
-                                .foregroundColor(.gray)
+                        Rectangle()
+                            .cornerRadius(20)
+                            .foregroundColor(.gray)
                         if canRecord && oneIsRecording == false || slot.isRecording{
                             Rectangle()
                                 .cornerRadius(20)
                                 .foregroundColor(.red)
                                 .onAppear(){
                                     withAnimation(Animation.easeIn(duration: 0.6).repeatForever(autoreverses: true)){
-                                        fade2.toggle()
-                                    }
-                                }.opacity(fade2 ? 0 : 1)
-                        }
-
-                        if trim && oneIsTrimming == false && slot.beenRecorded == true{
-                            Rectangle()
-                                .cornerRadius(20)
-                                .foregroundColor(.yellow)
-                                .onAppear(){
-                                    withAnimation(Animation.easeIn(duration: 0.6).repeatForever(autoreverses: true)){
                                         fade.toggle()
                                     }
                                 }.opacity(fade ? 0 : 1)
                         }
-                        if slot.beenRecorded == true{
+                        
+                        if slot.beenRecorded == true && loopState == false{
                             Image(systemName: "waveform.path")
                                 .foregroundColor(.black)
                                 .font(.system(size: 60))
+                        }
+                        else if loopState && slot.beenRecorded == true{
+                            if !isInfinite{
+                                Text("\(myInt)")
+                                    .foregroundColor(.black)
+                                    .font(.system(size: 60))
+                            }
+                            else{
+                                Text("∞")
+                                    .foregroundColor(.black)
+                                    .font(.system(size: 60))
+                            }
                         }
                     }
                 }
@@ -117,42 +92,13 @@ struct ButtonSlot: View {
                         .font(.system(size:30))
                 }
             }
-            if trim && slot.isTrimming{
-                ZStack(alignment:.leading){
-                    Rectangle()
-                        .fill(Color.gray)
-                        .frame(height:6)
-                    Rectangle()
-                        .fill(Color.yellow)
-                        .frame(width: self.width1 - self.width ,height:6)
-                        .offset(x: width + 18)
-                    HStack(spacing: 0){
-                        Circle()
-                            .foregroundColor(.yellow)
-                            .frame(width: 18, height: 18)
-                            .offset(x: self.width)
-                            .gesture(
-                                DragGesture()
-                                    .onChanged({ (value) in
-                                        if value.location.x >= 0 && value.location.x <= self.width1{
-                                            self.width = value.location.x
-                                        }
-                                    })
-                            )
-                        Circle()
-                            .foregroundColor(.yellow)
-                            .frame(width: 18, height: 18)
-                            .offset(x: self.width1)
-                            .gesture(
-                                DragGesture()
-                                    .onChanged({ (value) in
-                                        if value.location.x <= self.totalWidth && value.location.x >= self.width{
-                                            self.width1 = value.location.x
-                                        }
-                                    })
-                            )
-                    }
+            if loopState == true {
+                Toggle(isOn: $isInfinite){
+                    Text("∞")
+                    .font(.system(size: 30))
+                    .foregroundColor((slot.beenRecorded == true) ? .black : .gray)
                 }
+                .disabled(slot.beenRecorded == false)
             }
         }
     }

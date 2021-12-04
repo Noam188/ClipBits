@@ -8,6 +8,7 @@ class AudioRecorder: NSObject, ObservableObject {
     override init() {
         super.init()
         fetchRecording()
+        
     }
     
     let objectWillChange = PassthroughSubject<AudioRecorder, Never>()
@@ -21,6 +22,8 @@ class AudioRecorder: NSObject, ObservableObject {
             objectWillChange.send(self)
         }
     }
+     
+     // 2
     
     func startRecording(recordingName: String) {
         let recordingSession = AVAudioSession.sharedInstance()

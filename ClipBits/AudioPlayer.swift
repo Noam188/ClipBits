@@ -15,10 +15,13 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
     
-    var audioPlayer: AVAudioPlayer!
-    
+    var audioPlayer: AVAudioPlayer?
     func startPlayback(audio: URL) {
         let playbackSession = AVAudioSession.sharedInstance()
+        if let audioPlayer = audioPlayer {
+            audioPlayer.play()
+           
+        }
         
         do {
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
@@ -28,8 +31,8 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: audio)
-            audioPlayer.delegate = self
-            audioPlayer.play()
+            audioPlayer?.delegate = self
+            audioPlayer?.play()
             isPlaying = true
         } catch {
             print("Playback failed.")
@@ -37,7 +40,7 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
     }
     
     func stopPlayback() {
-        audioPlayer.stop()
+        audioPlayer?.stop()
         isPlaying = false
     }
     
