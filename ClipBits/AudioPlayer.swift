@@ -43,6 +43,9 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         audioPlayer?.stop()
         isPlaying = false
     }
+    func loop(nums:Int){
+        audioPlayer?.numberOfLoops = nums
+    }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         if flag {

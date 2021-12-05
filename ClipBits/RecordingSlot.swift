@@ -17,7 +17,7 @@ struct ButtonSlot: View {
     @State var totalWidth = UIScreen.main.bounds.width / 3 - 45
     @State var isInfinite = false
     @State var numberofTimesLooped = 10
-    @State var myInt = 0 //times being looped
+    @State var myInt = 2 //times being looped
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
@@ -28,6 +28,12 @@ struct ButtonSlot: View {
         VStack{
             Button(action:{
                 if !canRecord && !edit && slot.beenRecorded == true{
+                    if isInfinite{
+                        audioPlayer.loop(nums:-1)
+                    }
+                    else{
+                        audioPlayer.loop(nums:myInt)
+                    }
                     if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
                         self.audioPlayer.startPlayback(audio: recording.fileURL)
                     }
