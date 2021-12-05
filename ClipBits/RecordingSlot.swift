@@ -17,7 +17,7 @@ struct ButtonSlot: View {
     @State var totalWidth = UIScreen.main.bounds.width / 3 - 45
     @State var isInfinite = false
     @State var numberofTimesLooped = 10
-    @State var myInt = 0
+    @State var myInt = 0 //times being looped
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
