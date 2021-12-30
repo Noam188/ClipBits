@@ -17,7 +17,7 @@ struct ButtonSlot: View {
     @State var totalWidth = UIScreen.main.bounds.width / 3 - 45
     @State var isInfinite = false
     @State var numberofTimesLooped = 10
-    @State var myInt = 2 //times being looped
+    @State var myInt = 3 //times being looped
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
@@ -29,10 +29,10 @@ struct ButtonSlot: View {
             Button(action:{
                 if !canRecord && !edit && slot.beenRecorded == true{
                     if isInfinite{
-                        audioPlayer.loop(nums:-1)
+                        audioPlayer.changeLoop(-1)
                     }
                     else{
-                        audioPlayer.loop(nums:myInt)
+                        audioPlayer.changeLoop(myInt)
                     }
                     if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
                         self.audioPlayer.startPlayback(audio: recording.fileURL)
@@ -51,6 +51,8 @@ struct ButtonSlot: View {
                     slot.beenRecorded = true
                     UserDefaults.standard.set(true, forKey: slot.id)
                     isActive = true
+                    oneIsRecording = true
+                    slot.isRecording = true
                 }
             }) {
                 VStack{
@@ -100,8 +102,8 @@ struct ButtonSlot: View {
             if loopState == true {
                 Toggle(isOn: $isInfinite){
                     Text("∞")
-                    .font(.system(size: 30))
-                    .foregroundColor((slot.beenRecorded == true) ? .black : .gray)
+                        .font(.system(size: 30))
+                        .foregroundColor((slot.beenRecorded == true) ? .black : .gray)
                 }
                 .disabled(slot.beenRecorded == false)
             }
