@@ -1,60 +1,57 @@
+import AVFoundation
+import Combine
 import Foundation
 import SwiftUI
-import Combine
-import AVFoundation
 
 class AudioRecorder: NSObject, ObservableObject {
-    
     override init() {
         super.init()
         fetchRecording()
-        
     }
-    
+
     let objectWillChange = PassthroughSubject<AudioRecorder, Never>()
-    
+
     var audioRecorder: AVAudioRecorder!
-    
+
     var recordings = [Recording]()
-    
+
     var recording = false {
         didSet {
             objectWillChange.send(self)
         }
     }
-     
-     // 2
-    
+
+    // 2
+
     func startRecording(recordingName: String) {
         let recordingSession = AVAudioSession.sharedInstance()
-        
+
         do {
             try recordingSession.setCategory(.playAndRecord, mode: .default)
             try recordingSession.setActive(true)
         } catch {
             print("Failed to set up recording session")
         }
-        
+
         let fileManager = FileManager.default
         let documentPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let audioFilePath = documentPath.appendingPathComponent("\(recordingName).m4a")
-        
+
         if fileManager.fileExists(atPath: audioFilePath.path) {
-            do{
+            do {
                 try fileManager.removeItem(at: audioFilePath)
-            } catch let error {
+            } catch {
                 print("An error occurred: \(error)")
             }
         }
-        
-        
+
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,
             AVNumberOfChannelsKey: 1,
-            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
         ]
-        
+
         do {
             audioRecorder = try AVAudioRecorder(url: audioFilePath, settings: settings)
             audioRecorder.record()
@@ -64,17 +61,17 @@ class AudioRecorder: NSObject, ObservableObject {
             print("Could not start recording")
         }
     }
-    
+
     func stopRecording() {
         audioRecorder.stop()
         recording = false
-        
+
         fetchRecording()
     }
-    
+
     func fetchRecording() {
         recordings.removeAll()
-        
+
         let fileManager = FileManager.default
         let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let directoryContents = try! fileManager.contentsOfDirectory(at: documentDirectory, includingPropertiesForKeys: nil)
@@ -82,24 +79,22 @@ class AudioRecorder: NSObject, ObservableObject {
             let recording = Recording(fileURL: audio, createdAt: getFileDate(for: audio))
             recordings.append(recording)
         }
-        
-        recordings.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedAscending})
-        
+
+        recordings.sort(by: { $0.createdAt.compare($1.createdAt) == .orderedAscending })
+
         objectWillChange.send(self)
-        
     }
-    
+
     func deleteRecording(urlsToDelete: [URL]) {
-            
         for url in urlsToDelete {
             print(url)
             do {
-               try FileManager.default.removeItem(at: url)
+                try FileManager.default.removeItem(at: url)
             } catch {
                 print("File could not be deleted!")
             }
         }
-        
+
         fetchRecording()
     }
 }

@@ -1,54 +1,63 @@
 
 import Foundation
 
-import SwiftUI
-import Combine
 import AVFoundation
+import Combine
+import SwiftUI
 
 class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
-    
-    
     let objectWillChange = PassthroughSubject<AudioPlayer, Never>()
-    
+
     var isPlaying = false {
         didSet {
             objectWillChange.send(self)
         }
     }
-    
-    var audioPlayerEngine: AVAudioPlayer!
-    
-    func startPlayback(audio: URL) {
+
+    var audioPlayer: AVAudioPlayer!
+
+    func createAudioPlayer(audio: URL) {
         let playbackSession = AVAudioSession.sharedInstance()
-        
+
         do {
             try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
         } catch {
             print("Playing over the device's speakers failed")
         }
-        
+
         do {
-            audioPlayerEngine = try AVAudioPlayer(contentsOf: audio)
-            audioPlayerEngine.delegate = self
-            audioPlayerEngine.play()
-            isPlaying = true
+            audioPlayer = try AVAudioPlayer(contentsOf: audio)
+            audioPlayer.delegate = self
         } catch {
-            print("Playback failed.")
+            print("Failed to create audio player.")
         }
     }
-    
+
+    func startPlayback() {
+        let playbackSession = AVAudioSession.sharedInstance()
+
+        do {
+            try playbackSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+        } catch {
+            print("Playing over the device's speakers failed")
+        }
+
+        audioPlayer.play()
+        isPlaying = true
+    }
+
     func stopPlayback() {
-        audioPlayerEngine.stop()
+        audioPlayer.stop()
         isPlaying = false
     }
-    
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+
+    func audioPlayerDidFinishPlaying(_: AVAudioPlayer, successfully flag: Bool) {
         if flag {
             isPlaying = false
         }
     }
+
     func changeLoop(_ num: Int) {
-            audioPlayerEngine!.numberOfLoops = num;
+        audioPlayer!.numberOfLoops = num
     }
 }
-
