@@ -16,7 +16,7 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
     
-    var audioPlayer: AVAudioPlayer!
+    var audioPlayerEngine: AVAudioPlayer!
     
     func startPlayback(audio: URL) {
         let playbackSession = AVAudioSession.sharedInstance()
@@ -28,9 +28,9 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
         
         do {
-            audioPlayer = try AVAudioPlayer(contentsOf: audio)
-            audioPlayer.delegate = self
-            audioPlayer.play()
+            audioPlayerEngine = try AVAudioPlayer(contentsOf: audio)
+            audioPlayerEngine.delegate = self
+            audioPlayerEngine.play()
             isPlaying = true
         } catch {
             print("Playback failed.")
@@ -38,7 +38,7 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
     }
     
     func stopPlayback() {
-        audioPlayer.stop()
+        audioPlayerEngine.stop()
         isPlaying = false
     }
     
@@ -48,7 +48,7 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
     func changeLoop(_ num: Int) {
-            audioPlayer!.numberOfLoops = num;
+            audioPlayerEngine!.numberOfLoops = num;
     }
 }
 

@@ -28,12 +28,12 @@ struct ButtonSlot: View {
         VStack{
             Button(action:{
                 if !canRecord && !edit && slot.beenRecorded == true{
-                    if isInfinite{
-                        audioPlayer.changeLoop(-1)
-                    }
-                    else{
-                        audioPlayer.changeLoop(myInt)
-                    }
+//                    if isInfinite{
+//                        audioPlayer.changeLoop(-1)
+//                    }
+//                    else{
+//                        audioPlayer.changeLoop(myInt)
+//                    }
                     if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
                         self.audioPlayer.startPlayback(audio: recording.fileURL)
                     }
