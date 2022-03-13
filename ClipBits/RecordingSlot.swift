@@ -99,16 +99,16 @@ struct ButtonSlot: View {
                 }
             }
             if loopState == true {
-                HStack{
+                HStack {
                     Toggle(isOn: $isInfinite) {
                         Text("∞")
                             .font(.system(size: 20))
                             .foregroundColor((slot.beenRecorded == true) ? .black : .gray)
                             .disabled(slot.beenRecorded == false)
                     }
-                    VStack{
+                    VStack {
                         Button(action: {
-                            if myInt <= 1{
+                            if myInt <= 1 {
                                 myInt += 1
                             }
                         }) {
@@ -116,7 +116,7 @@ struct ButtonSlot: View {
                                 .font(.system(size: 25))
                         }
                         Button(action: {
-                            if myInt >= 1{
+                            if myInt >= 1 {
                                 myInt -= 1
                             }
                         }) {
