@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3CE086A526EB0CA10013BB1A /* ClipBitsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE086A426EB0CA10013BB1A /* ClipBitsApp.swift */; };
+		C202428F278223BD00D362FD /* Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202428E278223BD00D362FD /* Start.swift */; };
 		C20266D626EA7FBE00BC9BF1 /* RecordingSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20266D526EA7FBE00BC9BF1 /* RecordingSlot.swift */; };
 		C263B13F26E07CC100E5E214 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C263B13E26E07CC100E5E214 /* ContentView.swift */; };
 		C263B14126E07CC400E5E214 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C263B14026E07CC400E5E214 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		3CE086A426EB0CA10013BB1A /* ClipBitsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipBitsApp.swift; sourceTree = "<group>"; };
+		C202428E278223BD00D362FD /* Start.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Start.swift; sourceTree = "<group>"; };
 		C20266D526EA7FBE00BC9BF1 /* RecordingSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSlot.swift; sourceTree = "<group>"; };
 		C263B13926E07CC100E5E214 /* ClipBits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipBits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C263B13E26E07CC100E5E214 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				C29246D426E9284200DAE41D /* AudioPlayer.swift */,
 				C20266D526EA7FBE00BC9BF1 /* RecordingSlot.swift */,
 				C263B13E26E07CC100E5E214 /* ContentView.swift */,
+				C202428E278223BD00D362FD /* Start.swift */,
 				C29246D826E928E500DAE41D /* RecordingDataModel.swift */,
 				C29246DA26E929A100DAE41D /* Extentions.swift */,
 				C29246DC26E929B600DAE41D /* Helper.swift */,
@@ -284,6 +287,7 @@
 				C20266D626EA7FBE00BC9BF1 /* RecordingSlot.swift in Sources */,
 				C29246DD26E929B600DAE41D /* Helper.swift in Sources */,
 				C29246D126E9280400DAE41D /* AudioRecorder.swift in Sources */,
+				C202428F278223BD00D362FD /* Start.swift in Sources */,
 				3CE086A526EB0CA10013BB1A /* ClipBitsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

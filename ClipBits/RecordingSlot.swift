@@ -17,32 +17,33 @@ struct ButtonSlot: View {
     @State var totalWidth = UIScreen.main.bounds.width / 3 - 45
     @State var isInfinite = false
     @State var numberofTimesLooped = 10
-    @State var myInt = 3 // times being looped
+    @State var myInt = 1 // times being looped
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
     func getValue(val: CGFloat) -> String {
         return String(format: "%.2f", val)
     }
-
+    
     var body: some View {
         VStack {
             Button(action: {
                 if !canRecord, !edit, slot.beenRecorded == true {
                     if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
                         self.audioPlayer.createAudioPlayer(audio: recording.fileURL)
+                        print("yep")
                     } else {
                         print("No audio url was saved")
                     }
-
+                    
                     if isInfinite {
                         self.audioPlayer.changeLoop(-1)
                     } else {
-                        self.audioPlayer.changeLoop(myInt)
+                        self.audioPlayer.changeLoop(myInt - 1)
                     }
-
+                    
                     self.audioPlayer.startPlayback()
-
+                    
                     if audioPlayer.isPlaying == false {
                         print("audio is playing")
                     }
@@ -70,7 +71,7 @@ struct ButtonSlot: View {
                                     }
                                 }.opacity(fade ? 0 : 1)
                         }
-
+                        
                         if slot.beenRecorded == true && loopState == false {
                             Image(systemName: "waveform.path")
                                 .foregroundColor(.black)
@@ -98,12 +99,32 @@ struct ButtonSlot: View {
                 }
             }
             if loopState == true {
-                Toggle(isOn: $isInfinite) {
-                    Text("∞")
-                        .font(.system(size: 30))
-                        .foregroundColor((slot.beenRecorded == true) ? .black : .gray)
+                HStack{
+                    Toggle(isOn: $isInfinite) {
+                        Text("∞")
+                            .font(.system(size: 20))
+                            .foregroundColor((slot.beenRecorded == true) ? .black : .gray)
+                            .disabled(slot.beenRecorded == false)
+                    }
+                    VStack{
+                        Button(action: {
+                            if myInt <= 1{
+                                myInt += 1
+                            }
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 25))
+                        }
+                        Button(action: {
+                            if myInt >= 1{
+                                myInt -= 1
+                            }
+                        }) {
+                            Image(systemName: "minus.circle.fill")
+                                .font(.system(size: 25))
+                        }
+                    }
                 }
-                .disabled(slot.beenRecorded == false)
             }
         }
     }

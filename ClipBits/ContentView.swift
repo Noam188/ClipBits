@@ -12,7 +12,7 @@ struct Slot: Identifiable {
     var isRecording = false
     var beenRecorded: Bool?
     var isTrimming = false
-
+    
     init(id: String) {
         self.id = id
         isChecked = false
@@ -23,26 +23,32 @@ struct Slot: Identifiable {
 }
 
 class StopWatchManager: ObservableObject {
-    @Published var secondsElapsed = 0.0
-    @Published var mode: stopWatchMode = .stopped
-
-    var timer = Timer()
-    enum stopWatchMode {
+    @Published var secondsElapsed = 1
+    @Published var mode: StopWatchMode = .stopped
+    
+    
+    @Published var timer = Timer()
+    enum StopWatchMode {
         case running
         case stopped
         case paused
     }
-
+    
     func start() {
         mode = .running
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            self.secondsElapsed = self.secondsElapsed + 0.1
+        timer = Timer.scheduledTimer(withTimeInterval: (60 / 120), repeats: true) { _ in
+            if self.secondsElapsed != 4{
+                self.secondsElapsed = self.secondsElapsed + 1
+            }
+            else{
+                self.secondsElapsed = 1
+            }
         }
     }
-
+    
     func stop() {
         timer.invalidate()
-        secondsElapsed = 0
+        secondsElapsed = 1
         mode = .stopped
     }
 }
@@ -56,12 +62,15 @@ struct ContentView: View {
     @State var trim = false
     @State var anim = false
     @State var ten = false
-    @State var num: CGFloat = 3
+    @State var num: CGFloat = 4
     @State var isActive = false
     @State var timeRemaining: CGFloat = 3
     @State var loopState = false
+    @State var bpm = 120
+    @State var measuresRecorded = 0
+    @State var measuresNeeded = 1
     @ObservedObject var stopWatchManager = StopWatchManager()
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: (60 / 120), on: .main, in: .common).autoconnect()
     @State var slots = [
         Slot(id: "slot0"),
         Slot(id: "slot1"),
@@ -78,10 +87,10 @@ struct ContentView: View {
     ]
     private func normalizeSoundLevel(level: Float) -> CGFloat {
         let level = max(0.2, CGFloat(level) + 50) / 2 // between 0.1 and 25
-
+        
         return CGFloat(level * (300 / 25)) // scaled to max at 300 (our height of our bar)
     }
-
+    
     func hasAtLeastOneChecked() -> Bool {
         var numberOfChecked = 0
         for slot in slots {
@@ -95,7 +104,7 @@ struct ContentView: View {
             return false
         }
     }
-
+    
     var body: some View {
         ZStack {
             VStack {
@@ -136,7 +145,7 @@ struct ContentView: View {
                                 .foregroundColor(edit ? .blue : .black)
                         }
                     }
-
+                    
                     Button(action: {
                         if loopState == false, edit == false {
                             canRecord.toggle()
@@ -155,10 +164,10 @@ struct ContentView: View {
                             .foregroundColor(canRecord ? .red : .black)
                     }
                     Button(action: {
-                        if num < 9 {
-                            num += 2
+                        if num == 4 {
+                            num = 8
                         } else {
-                            num = 3
+                            num = 4
                         }
                         timeRemaining = num
                     }) {
@@ -195,7 +204,7 @@ struct ContentView: View {
                 }
             }
             .padding()
-
+            
             Rectangle()
                 .frame(width: 200, height: 200)
                 .cornerRadius(25)
@@ -210,16 +219,40 @@ struct ContentView: View {
                     .frame(width: 200, height: 140)
                     .foregroundColor(.clear)
                     .overlay(
-                        Text(String(format: "%.1f", stopWatchManager.secondsElapsed))
+                        Text(String(stopWatchManager.secondsElapsed))
                             .font(.system(size: 60))
                             .fontWeight(.semibold)
-                    )
-
+                    ).onChange(of: stopWatchManager.secondsElapsed, perform:{ _ in
+                        if stopWatchManager.secondsElapsed == 1 && measuresRecorded == 0{
+                            for index in slots.indices {
+                                if slots[index].isRecording {
+                                    self.audioRecorder.startRecording(recordingName: "\(index)")
+                                    print("yo")
+                                }
+                            }
+                        }
+                        if stopWatchManager.secondsElapsed == 1{
+                            measuresRecorded += 1
+                            if measuresNeeded == measuresRecorded{
+                                canRecord.toggle()
+                                self.stopWatchManager.stop()
+                                for index in slots.indices {
+                                    if slots[index].isRecording {
+                                        slots[index].isRecording = false
+                                        self.audioRecorder.stopRecording()
+                                        print("balon")
+                                    }
+                                }
+                                oneIsRecording = false
+                            }
+                        }
+                    })
+                
                 Button(action: {
                     canRecord.toggle()
                     self.stopWatchManager.stop()
                     for index in slots.indices {
-                        if slots[index].isRecording {
+                        if slots[index].isRecording{
                             slots[index].isRecording = false
                             self.audioRecorder.stopRecording()
                         }
@@ -241,15 +274,15 @@ struct ContentView: View {
                     .scaleEffect(oneIsRecording ? 1 : 0)
                     .animation(.easeInOut)
                     .animation(.easeOut)
-
+                
                 Circle()
                     .trim(from: 0, to: 1 - (num - timeRemaining) / num)
-
+                
                     .stroke((timeRemaining > (num / 3 + num / 3)) ?
-                        Color.green :
-                        (timeRemaining > (num / 3)) ?
-                        Color.yellow : Color.red,
-                        style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                            Color.green :
+                                (timeRemaining > (num / 3)) ?
+                            Color.yellow : Color.red,
+                            style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .animation(.easeInOut)
                     .frame(width: radius * 2, height: radius * 2)
@@ -263,11 +296,11 @@ struct ContentView: View {
                     } else {
                         isActive = false
                         self.stopWatchManager.start()
-                        for index in slots.indices {
-                            if slots[index].isRecording {
-                                self.audioRecorder.startRecording(recordingName: "\(index)")
-                            }
-                        }
+//                        for index in slots.indices {
+//                            if slots[index].isRecording {
+//                                self.audioRecorder.startRecording(recordingName: "\(index)")
+//                            }
+//                        }
                     }
                 })
             }
