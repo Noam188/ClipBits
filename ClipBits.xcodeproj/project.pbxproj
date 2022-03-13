@@ -18,7 +18,7 @@
 		C29246D126E9280400DAE41D /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246D026E9280400DAE41D /* AudioRecorder.swift */; };
 		C29246D526E9284200DAE41D /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246D426E9284200DAE41D /* AudioPlayer.swift */; };
 		C29246D926E928E500DAE41D /* RecordingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246D826E928E500DAE41D /* RecordingDataModel.swift */; };
-		C29246DB26E929A100DAE41D /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246DA26E929A100DAE41D /* Extentions.swift */; };
+		C29246DB26E929A100DAE41D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246DA26E929A100DAE41D /* Extensions.swift */; };
 		C29246DD26E929B600DAE41D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246DC26E929B600DAE41D /* Helper.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,7 +57,7 @@
 		C29246D026E9280400DAE41D /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		C29246D426E9284200DAE41D /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		C29246D826E928E500DAE41D /* RecordingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDataModel.swift; sourceTree = "<group>"; };
-		C29246DA26E929A100DAE41D /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
+		C29246DA26E929A100DAE41D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C29246DC26E929B600DAE41D /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,7 +116,7 @@
 				C263B13E26E07CC100E5E214 /* ContentView.swift */,
 				C202428E278223BD00D362FD /* Start.swift */,
 				C29246D826E928E500DAE41D /* RecordingDataModel.swift */,
-				C29246DA26E929A100DAE41D /* Extentions.swift */,
+				C29246DA26E929A100DAE41D /* Extensions.swift */,
 				C29246DC26E929B600DAE41D /* Helper.swift */,
 				C263B14026E07CC400E5E214 /* Assets.xcassets */,
 				C263B14526E07CC400E5E214 /* Info.plist */,
@@ -283,7 +283,7 @@
 				C263B13F26E07CC100E5E214 /* ContentView.swift in Sources */,
 				C29246D926E928E500DAE41D /* RecordingDataModel.swift in Sources */,
 				C29246D526E9284200DAE41D /* AudioPlayer.swift in Sources */,
-				C29246DB26E929A100DAE41D /* Extentions.swift in Sources */,
+				C29246DB26E929A100DAE41D /* Extensions.swift in Sources */,
 				C20266D626EA7FBE00BC9BF1 /* RecordingSlot.swift in Sources */,
 				C29246DD26E929B600DAE41D /* Helper.swift in Sources */,
 				C29246D126E9280400DAE41D /* AudioRecorder.swift in Sources */,

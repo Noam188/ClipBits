@@ -58,6 +58,10 @@ class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
     }
 
     func changeLoop(_ num: Int) {
-        audioPlayer!.numberOfLoops = num
+        if let audioPlayer = audioPlayer {
+            audioPlayer.numberOfLoops = num
+        } else {
+            print("Start recording has not been called yet")
+        }
     }
 }
