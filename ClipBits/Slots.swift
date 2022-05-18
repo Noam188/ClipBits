@@ -1,8 +1,16 @@
-//
-//  Slots.swift
-//  ClipBits
-//
-//  Created by Noam Elyashiv on 20/03/2022.
-//
-
-import Foundation
+import SwiftUI
+struct Slot: Identifiable {
+    var id: String
+    var isChecked = false
+    var isRecording = false
+    var beenRecorded: Bool?
+    var isTrimming = false
+    
+    init(id: String) {
+        self.id = id
+        isChecked = false
+        isRecording = false
+        isTrimming = false
+        beenRecorded = UserDefaults.standard.bool(forKey: id)
+    }
+}

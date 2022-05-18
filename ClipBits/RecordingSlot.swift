@@ -1,23 +1,14 @@
 import SwiftUI
 
 struct ButtonSlot: View {
+    @EnvironmentObject var stopWatchManager:StopWatchManager
     @Binding var slot: Slot
     @Binding var canRecord: Bool /// whether recording is enabled for all slots
     @Binding var oneIsRecording: Bool /// whether 1 slot is recording (disable recording for other slots)
-    @Binding var oneIsTrimming: Bool
     @Binding var edit: Bool
-    @Binding var trim: Bool
-    @Binding var anim: Bool
-    @Binding var isActive: Bool
     @Binding var loopState: Bool
     @State private var fade = false
-    @State var beenTrimmed = false
-    @State var width: CGFloat = 0
-    @State var width1: CGFloat = UIScreen.main.bounds.width / 3 - 45
-    @State var totalWidth = UIScreen.main.bounds.width / 3 - 45
-    @State var isInfinite = false
-    @State var numberofTimesLooped = 10
-    @State var myInt = 1 // times being looped
+    @State var isLooping = false
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
     var index: Int
@@ -35,13 +26,9 @@ struct ButtonSlot: View {
                     } else {
                         print("No audio url was saved")
                     }
-                    
-                    if isInfinite {
+                    if isLooping{
                         self.audioPlayer.changeLoop(-1)
-                    } else {
-                        self.audioPlayer.changeLoop(myInt - 1)
                     }
-                    
                     self.audioPlayer.startPlayback()
                     
                     if audioPlayer.isPlaying == false {
@@ -49,9 +36,10 @@ struct ButtonSlot: View {
                     }
                 }
                 if canRecord, oneIsRecording == false {
+                    print("works")
                     slot.beenRecorded = true
+                    stopWatchManager.start()
                     UserDefaults.standard.set(true, forKey: slot.id)
-                    isActive = true
                     oneIsRecording = true
                     slot.isRecording = true
                 }
@@ -77,15 +65,9 @@ struct ButtonSlot: View {
                                 .foregroundColor(.black)
                                 .font(.system(size: 60))
                         } else if loopState, slot.beenRecorded == true {
-                            if !isInfinite {
-                                Text("\(myInt)")
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 60))
-                            } else {
                                 Text("∞")
                                     .foregroundColor(.black)
                                     .font(.system(size: 60))
-                            }
                         }
                     }
                 }
@@ -93,39 +75,21 @@ struct ButtonSlot: View {
             if edit == true {
                 Button(action: {
                     slot.isChecked.toggle()
+                    print("toggled")
                 }) {
                     Image(systemName: slot.isChecked ? "checkmark.circle.fill" : "checkmark.circle")
                         .font(.system(size: 30))
                 }
             }
             if loopState == true {
-                HStack {
-                    Toggle(isOn: $isInfinite) {
+                Toggle(isOn: $isLooping) {
                         Text("∞")
                             .font(.system(size: 20))
                             .foregroundColor((slot.beenRecorded == true) ? .black : .gray)
                             .disabled(slot.beenRecorded == false)
                     }
-                    VStack {
-                        Button(action: {
-                            if myInt <= 1 {
-                                myInt += 1
-                            }
-                        }) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 25))
-                        }
-                        Button(action: {
-                            if myInt >= 1 {
-                                myInt -= 1
-                            }
-                        }) {
-                            Image(systemName: "minus.circle.fill")
-                                .font(.system(size: 25))
-                        }
-                    }
                 }
             }
         }
     }
-}
+
