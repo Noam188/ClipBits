@@ -2,14 +2,15 @@
 import SwiftUI
 let lineWidth: CGFloat = 30
 let radius: CGFloat = 70
-struct ContentView: View {
+struct ContentView: View{
     @State var canRecord = false /// this is for enabling/disabling universal recording ability
     @State var oneIsRecording = false /// if one slot is recording
     @State var edit = false
-    @State var num: CGFloat = 4
+    @State var num: CGFloat = 3
     @State var loopState = false
     @State var showSettings = false
     @State var metronome = false
+    var id:String?
     @ObservedObject var stopWatchManager = StopWatchManager()
     @State var slots = [
         Slot(id: "slot0"),
@@ -25,7 +26,9 @@ struct ContentView: View {
         Slot(id: "slot10"),
         Slot(id: "slot11"),
     ]
-
+    init(id:String?){
+        self.id = id
+    }
     var body: some View{
         ZStack{
             VStack{
@@ -38,7 +41,6 @@ struct ContentView: View {
                 ButtonReduced(slots: $slots, canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, num: $num, loopState: $loopState).environmentObject(stopWatchManager)
                     .padding()
             }
-            .ignoresSafeArea()
             Rectangle()
                 .frame(width: 200, height: 200)
                 .cornerRadius(25)
@@ -55,6 +57,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(id: nil)
     }
 }

@@ -23,6 +23,7 @@ struct ControlPannel: View{
     @Binding var showSettings: Bool
     @Binding var metronome:Bool
     @EnvironmentObject var stopWatchManager:StopWatchManager
+    @State var font = 33
     func hasAtLeastOneChecked() -> Bool {
         var numberOfChecked = 0
         for slot in slots {
@@ -38,13 +39,13 @@ struct ControlPannel: View{
     }
     
     var body: some View {
-        HStack(spacing: 20){
+        HStack(){
             ImageButton(imageName: "repeat.circle.fill", imageNameAlt: "repeat.circle", dependent: loopState, buttonColor: .green){
                 if edit == false, canRecord == false {
                     loopState.toggle()
                 }
                 
-            }.frame(width: 55, height: 55)
+            }
             if hasAtLeastOneChecked() && edit {
                 Button(action: {
                     if canRecord == false, loopState == false{
@@ -63,49 +64,49 @@ struct ControlPannel: View{
                         Image(systemName: "trash.circle.fill")
                             .font(.system(size: 45))
                             .foregroundColor(.red)
-                }.frame(width: 55, height: 55)
+                }
             }
             else{
                 ImageButton(imageName: "pencil.circle.fill", imageNameAlt: "pencil.circle", dependent: edit, buttonColor: .blue){
                     if canRecord == false, loopState == false{
                         edit.toggle()
                     }
-                }.frame(width: 55, height: 55)
+                }
             }
             ImageButton(imageName: "gearshape.fill" , imageNameAlt: "gearshape", dependent: showSettings, buttonColor: .orange){
                     if edit == false, canRecord == false {
                         showSettings.toggle()
                     }
             }.sheet(isPresented: $showSettings, content: {SettingsView( metronome: $metronome)})
-            .frame(width: 55, height: 55)
             ImageButton(imageName: "mic.circle.fill", imageNameAlt: "mic.circle", dependent: canRecord, buttonColor: .red){
                 if loopState == false, edit == false, oneIsRecording == false{
                     canRecord.toggle()
                     stopWatchManager.secondsElapsed = Int(num)
                     
                 }
-            }.frame(width: 55, height: 55)
+            }
 
             
             Button(action: {
-                if num == 4 {
-                    num = 8
-                } else if num == 8{
-                    num = 16
+                if num == 3 {
+                    num = 7
+                } else if num == 7{
+                    num = 15
+                    font = 20
                 }
                 else{
-                    num = 4
+                    num = 3
+                    font = 33
                 }
             }) {
                 Text("\(Int(num))")
-                    .font(.system(size: 20))
+                    .font(.system(size: CGFloat(font)))
                     .foregroundColor(.black)
-                    .frame(width: 55, height: 55)
+                    .padding()
                     .overlay(
                         Circle()
                             .strokeBorder(Color.black, lineWidth: 4)
-                            .frame(width: 53, height: 53)
-                    )
+                    ).frame(width: 60, height: 60)
             }
         }
     }

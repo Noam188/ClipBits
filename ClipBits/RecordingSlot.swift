@@ -1,6 +1,7 @@
 import SwiftUI
-
+import AVFoundation
 struct ButtonSlot: View {
+    @State var audioPlayer2: AVAudioPlayer!
     @EnvironmentObject var stopWatchManager:StopWatchManager
     @Binding var slot: Slot
     @Binding var canRecord: Bool /// whether recording is enabled for all slots
@@ -11,6 +12,8 @@ struct ButtonSlot: View {
     @State var isLooping = false
     @ObservedObject var audioPlayer = AudioPlayer()
     @ObservedObject var audioRecorder: AudioRecorder
+    @State var openSheet = false
+    @State var presetName:String? = nil
     var index: Int
     func getValue(val: CGFloat) -> String {
         return String(format: "%.2f", val)
@@ -43,6 +46,14 @@ struct ButtonSlot: View {
                     oneIsRecording = true
                     slot.isRecording = true
                 }
+                if presetName != nil{
+                    let sound = Bundle.main.path(forResource: presetName, ofType: "mp3")
+                    self.audioPlayer2 = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+                    self.audioPlayer2.play()
+                }
+                if edit == true && slot.beenRecorded == false{
+                   openSheet = true
+                }
             }) {
                 VStack {
                     ZStack {
@@ -59,8 +70,12 @@ struct ButtonSlot: View {
                                     }
                                 }.opacity(fade ? 0 : 1)
                         }
-                        
-                        if slot.beenRecorded == true && loopState == false {
+                        if edit == true && slot.beenRecorded == false{
+                            Image(systemName: "arrow.down")
+                                .foregroundColor(.black)
+                                .font(.system(size: 60))
+                        }
+                        if slot.beenRecorded == true && loopState == false{
                             Image(systemName: "waveform.path")
                                 .foregroundColor(.black)
                                 .font(.system(size: 60))
@@ -68,10 +83,14 @@ struct ButtonSlot: View {
                                 Text("∞")
                                     .foregroundColor(.black)
                                     .font(.system(size: 60))
+                        } else if slot.beenRecorded == false && canRecord{
+                            Image(systemName: "mic.fill")
+                                .foregroundColor(.gray)
+                                .font(.system(size: 60))
                         }
                     }
                 }
-            }
+            }.sheet(isPresented: $openSheet, content: {Presets(presetName: $presetName, openSheet: $openSheet)})
             if edit == true {
                 Button(action: {
                     slot.isChecked.toggle()

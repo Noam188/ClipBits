@@ -12,30 +12,31 @@ struct SettingsView: View {
                 .padding(.horizontal)
             HStack{
                 Text("Number of bars")
+                    .foregroundColor(stopWatchManager.autoStop ? .black : .gray)
                 Spacer()
                 
                 HStack{
                     Button(action: {
                         
-                        stopWatchManager.numberOfMeasures += 1
+                        stopWatchManager.numberOfBeats += 1
                     }) {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.gray)
-                            .font(.system(size: 35))
+                            .font(.system(size: 25))
                     }
-                    Text("\(stopWatchManager.numberOfMeasures)")
-                        .font(.system(size: 40))
+                    Text("\(stopWatchManager.numberOfBeats)")
+                        .font(.system(size: 20))
                         .background(Color.white)
                         .cornerRadius(5)
                         .padding(.horizontal)
                     Button(action: {
-                        if stopWatchManager.numberOfMeasures > 1{
-                            stopWatchManager.numberOfMeasures -= 1
+                        if stopWatchManager.numberOfBeats > 1{
+                            stopWatchManager.numberOfBeats -= 1
                         }
                     }) {
                         Image(systemName: "minus.circle.fill")
                             .foregroundColor(.gray)
-                            .font(.system(size: 35))
+                            .font(.system(size: 25))
                     }
                 }
             }.padding(.horizontal)

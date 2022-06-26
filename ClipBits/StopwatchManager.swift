@@ -1,6 +1,6 @@
 import SwiftUI
 class StopWatchManager: ObservableObject {
-    @Published var secondsElapsed = 4
+    @Published var secondsElapsed = 3
     @Published var stopWatchSeconds = 0
     @Published var displaySeconds = 1
     @Published var bars = 1
@@ -8,8 +8,7 @@ class StopWatchManager: ObservableObject {
     @Published var timer = Timer()
     @Published var tempo:CGFloat = 120
     @Published var autoStop = false
-    @Published var numberOfMeasures = 1
-    @Published var measuresRecorded = 0
+    @Published var numberOfBeats = 1
     var countDown = false
     
     enum StopWatchMode {
@@ -17,16 +16,19 @@ class StopWatchManager: ObservableObject {
         case stopped
         case paused
     }
+    private var timeInterval: TimeInterval {
+        return 1 / ((Double(tempo) / 60.0))
+    }
     
     func start() {
         stopWatchSeconds = -1 * secondsElapsed
         self.countDown = true
         mode = .running
-        timer = Timer.scheduledTimer(withTimeInterval: 60 / tempo, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { _ in
             self.stopWatchSeconds = 1 + self.stopWatchSeconds
             if self.countDown{
                 self.secondsElapsed = -1 + self.secondsElapsed
-                if self.secondsElapsed == 0{
+                if self.secondsElapsed == -1{
                     self.countDown = false
                 }
             }

@@ -23,8 +23,18 @@
 		C29246D926E928E500DAE41D /* RecordingDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246D826E928E500DAE41D /* RecordingDataModel.swift */; };
 		C29246DB26E929A100DAE41D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246DA26E929A100DAE41D /* Extensions.swift */; };
 		C29246DD26E929B600DAE41D /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29246DC26E929B600DAE41D /* Helper.swift */; };
+		C29C764B2864200D005DBCDA /* Hi-Hat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C29C764A2864200D005DBCDA /* Hi-Hat.mp3 */; };
+		C29C764D28642018005DBCDA /* Snare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C29C764C28642018005DBCDA /* Snare.mp3 */; };
+		C29C764F2864201D005DBCDA /* Kick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C29C764E2864201D005DBCDA /* Kick.mp3 */; };
+		C29C765128642027005DBCDA /* Open-Hi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C29C765028642027005DBCDA /* Open-Hi.mp3 */; };
+		C29C765328642085005DBCDA /* Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29C765228642085005DBCDA /* Presets.swift */; };
 		C2A15FA6281796F200C2203E /* AutoStopPannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A15FA5281796F200C2203E /* AutoStopPannel.swift */; };
-		C2AF0542281B91C800720E30 /* Click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2AF0541281B91C800720E30 /* Click.mp3 */; };
+		C2B332782862A0D000DFB833 /* Click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2B332772862A0D000DFB833 /* Click.mp3 */; };
+		C2B332792862A0D000DFB833 /* Click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2B332772862A0D000DFB833 /* Click.mp3 */; };
+		C2B3327A2862A0D000DFB833 /* Click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2B332772862A0D000DFB833 /* Click.mp3 */; };
+		C2B332842862A54D00DFB833 /* Beep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2B332832862A54D00DFB833 /* Beep.mp3 */; };
+		C2B332852862A54D00DFB833 /* Beep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2B332832862A54D00DFB833 /* Beep.mp3 */; };
+		C2B332862862A54D00DFB833 /* Beep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2B332832862A54D00DFB833 /* Beep.mp3 */; };
 		C2B3E26C27E827C500FCF535 /* StopwatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3E26B27E827C500FCF535 /* StopwatchManager.swift */; };
 		C2B3E26E27E827F900FCF535 /* Slots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3E26D27E827F900FCF535 /* Slots.swift */; };
 		C2B3E27027E828E500FCF535 /* ButtonReduced.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3E26F27E828E500FCF535 /* ButtonReduced.swift */; };
@@ -70,8 +80,14 @@
 		C29246D826E928E500DAE41D /* RecordingDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDataModel.swift; sourceTree = "<group>"; };
 		C29246DA26E929A100DAE41D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C29246DC26E929B600DAE41D /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		C29C764A2864200D005DBCDA /* Hi-Hat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Hi-Hat.mp3"; path = "../../../Music/Music/Media.localized/Music/Unknown Artist/Unknown Album/Hi-Hat.mp3"; sourceTree = "<group>"; };
+		C29C764C28642018005DBCDA /* Snare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Snare.mp3; path = "../../../Music/Music/Media.localized/Music/Unknown Artist/Unknown Album/Snare.mp3"; sourceTree = "<group>"; };
+		C29C764E2864201D005DBCDA /* Kick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Kick.mp3; path = "../../../Music/Music/Media.localized/Music/Unknown Artist/Unknown Album/Kick.mp3"; sourceTree = "<group>"; };
+		C29C765028642027005DBCDA /* Open-Hi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Open-Hi.mp3"; path = "../../../Music/Music/Media.localized/Music/Unknown Artist/Unknown Album/Open-Hi.mp3"; sourceTree = "<group>"; };
+		C29C765228642085005DBCDA /* Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presets.swift; sourceTree = "<group>"; };
 		C2A15FA5281796F200C2203E /* AutoStopPannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoStopPannel.swift; sourceTree = "<group>"; };
-		C2AF0541281B91C800720E30 /* Click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Click.mp3; path = "../../../Music/Music/Media.localized/Music/Unknown Artist/Unknown Album/Click.mp3"; sourceTree = "<group>"; };
+		C2B332772862A0D000DFB833 /* Click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Click.mp3; path = "../../../Music/Music/Media.localized/Music/Unknown Artist/Unknown Album/Click.mp3"; sourceTree = "<group>"; };
+		C2B332832862A54D00DFB833 /* Beep.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Beep.mp3; path = "../../../Music/Music/Media.localized/Music/Unknown Artist/Unknown Album/Beep.mp3"; sourceTree = "<group>"; };
 		C2B3E26B27E827C500FCF535 /* StopwatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchManager.swift; sourceTree = "<group>"; };
 		C2B3E26D27E827F900FCF535 /* Slots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slots.swift; sourceTree = "<group>"; };
 		C2B3E26F27E828E500FCF535 /* ButtonReduced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonReduced.swift; sourceTree = "<group>"; };
@@ -125,19 +141,25 @@
 		C263B13B26E07CC100E5E214 /* ClipBits */ = {
 			isa = PBXGroup;
 			children = (
-				C2AF0541281B91C800720E30 /* Click.mp3 */,
+				C29C764E2864201D005DBCDA /* Kick.mp3 */,
+				C29C764C28642018005DBCDA /* Snare.mp3 */,
+				C29C764A2864200D005DBCDA /* Hi-Hat.mp3 */,
+				C29C765028642027005DBCDA /* Open-Hi.mp3 */,
+				C2B332832862A54D00DFB833 /* Beep.mp3 */,
+				C2B332772862A0D000DFB833 /* Click.mp3 */,
 				3CE086A426EB0CA10013BB1A /* ClipBitsApp.swift */,
 				C29246D026E9280400DAE41D /* AudioRecorder.swift */,
 				C29246D426E9284200DAE41D /* AudioPlayer.swift */,
 				C20266D526EA7FBE00BC9BF1 /* RecordingSlot.swift */,
 				C263B13E26E07CC100E5E214 /* ContentView.swift */,
-				C2B3E26F27E828E500FCF535 /* ButtonReduced.swift */,
 				C29210512818D3CB0099E731 /* BPM.swift */,
+				C2B3E26F27E828E500FCF535 /* ButtonReduced.swift */,
 				C2A15FA5281796F200C2203E /* AutoStopPannel.swift */,
 				C240B5A327F01B4C0021C44A /* Timer.swift */,
 				C2B3E26B27E827C500FCF535 /* StopwatchManager.swift */,
 				C2B3E26D27E827F900FCF535 /* Slots.swift */,
 				C2598FA227EF8B1A007011EA /* ControlPannel.swift */,
+				C29C765228642085005DBCDA /* Presets.swift */,
 				C202428E278223BD00D362FD /* Start.swift */,
 				C29246D826E928E500DAE41D /* RecordingDataModel.swift */,
 				C29246DA26E929A100DAE41D /* Extensions.swift */,
@@ -279,8 +301,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C263B14426E07CC400E5E214 /* Preview Assets.xcassets in Resources */,
-				C2AF0542281B91C800720E30 /* Click.mp3 in Resources */,
+				C29C765128642027005DBCDA /* Open-Hi.mp3 in Resources */,
+				C2B332782862A0D000DFB833 /* Click.mp3 in Resources */,
+				C29C764D28642018005DBCDA /* Snare.mp3 in Resources */,
+				C2B332842862A54D00DFB833 /* Beep.mp3 in Resources */,
 				C263B14126E07CC400E5E214 /* Assets.xcassets in Resources */,
+				C29C764F2864201D005DBCDA /* Kick.mp3 in Resources */,
+				C29C764B2864200D005DBCDA /* Hi-Hat.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +315,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2B332852862A54D00DFB833 /* Beep.mp3 in Resources */,
+				C2B332792862A0D000DFB833 /* Click.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +324,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2B332862862A54D00DFB833 /* Beep.mp3 in Resources */,
+				C2B3327A2862A0D000DFB833 /* Click.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +347,7 @@
 				C202428F278223BD00D362FD /* Start.swift in Sources */,
 				C2B3E26E27E827F900FCF535 /* Slots.swift in Sources */,
 				C240B5A427F01B4C0021C44A /* Timer.swift in Sources */,
+				C29C765328642085005DBCDA /* Presets.swift in Sources */,
 				3CE086A526EB0CA10013BB1A /* ClipBitsApp.swift in Sources */,
 				C2A15FA6281796F200C2203E /* AutoStopPannel.swift in Sources */,
 				C2598FA327EF8B1A007011EA /* ControlPannel.swift in Sources */,

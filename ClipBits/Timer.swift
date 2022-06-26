@@ -67,11 +67,12 @@ struct TimerWatch: View{
         }
         .onChange(of: stopWatchManager.stopWatchSeconds) { _ in
             if metronome{
-            print("hello")
-            let sound = Bundle.main.path(forResource: "Click", ofType: "mp3")
-            self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
-            self.audioPlayer.play()
-            }
+                if !stopWatchManager.countDown{
+                    print("hello")
+                    let sound = Bundle.main.path(forResource: "Click", ofType: "mp3")
+                    self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+                    self.audioPlayer.play()
+                }}
             if stopWatchManager.stopWatchSeconds == 1{
                 for index in slots.indices {
                     if slots[index].isRecording {
@@ -79,7 +80,7 @@ struct TimerWatch: View{
                     }
                 }
             }
-            if (stopWatchManager.stopWatchSeconds-1)/stopWatchManager.numberOfMeasures == 4 && stopWatchManager.autoStop{
+            if (stopWatchManager.stopWatchSeconds-1) == stopWatchManager.numberOfBeats && stopWatchManager.autoStop{
                 canRecord.toggle()
                 self.stopWatchManager.stop()
                 for index in slots.indices {
