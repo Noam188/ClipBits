@@ -6,10 +6,14 @@ struct ContentView: View{
     @State var canRecord = false /// this is for enabling/disabling universal recording ability
     @State var oneIsRecording = false /// if one slot is recording
     @State var edit = false
-    @State var num: CGFloat = 3
+    @State var num:CGFloat = 3
     @State var loopState = false
     @State var showSettings = false
     @State var metronome = false
+    @State var oneIsLooping = false
+    @State var shallRecord = false
+    @State var showQuant = false
+    @State var linked = false
     var id:String?
     @ObservedObject var stopWatchManager = StopWatchManager()
     @State var slots = [
@@ -32,15 +36,29 @@ struct ContentView: View{
     var body: some View{
         ZStack{
             VStack{
-                ControlPannel(canRecord: $canRecord, loopState: $loopState, edit: $edit, num: $num, slots: $slots, oneIsRecording: $oneIsRecording, showSettings: $showSettings, metronome: $metronome)
+                ControlPannel(canRecord: $canRecord, loopState: $loopState, edit: $edit, num: $num, slots: $slots, oneIsRecording: $oneIsRecording, showSettings: $showSettings, metronome: $metronome, linked: $linked)
                     .environmentObject(stopWatchManager)
                     .padding(.top,40)
                     BPM()
                 .environmentObject(stopWatchManager)
-
-                ButtonReduced(slots: $slots, canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, num: $num, loopState: $loopState).environmentObject(stopWatchManager)
+                    ButtonReduced(slots: $slots, canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, num: $num, loopState: $loopState, oneIsLooping: $oneIsLooping).environmentObject(stopWatchManager)
                     .padding()
-            }
+                }
+            Rectangle()
+            .frame(width: 350, height: 150)
+            .cornerRadius(25)
+            .foregroundColor(.white)
+            .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+            .opacity(showQuant ? 1 : 0)
+            .scaleEffect(showQuant ? 1 : 0.01)
+            .animation(.easeInOut)
+            .animation(.easeOut)
+            Quantizer(shallRecord: $shallRecord)
+                .opacity(showQuant ? 1 : 0)
+                .scaleEffect(showQuant ? 1 : 0.01)
+                .animation(.easeInOut)
+                .animation(.easeOut)
+
             Rectangle()
                 .frame(width: 200, height: 200)
                 .cornerRadius(25)
@@ -50,7 +68,7 @@ struct ContentView: View{
                 .scaleEffect(oneIsRecording ? 1 : 0.01)
                 .animation(.easeInOut)
                 .animation(.easeOut)
-            TimerWatch(oneIsRecording: $oneIsRecording, num: $num, slots: $slots, canRecord: $canRecord, metronome: $metronome).environmentObject(stopWatchManager)
+            TimerWatch(num: $num, slots: $slots, canRecord: $canRecord, metronome: $metronome, oneIsRecording: $oneIsRecording).environmentObject(stopWatchManager)
         }
     }
 }

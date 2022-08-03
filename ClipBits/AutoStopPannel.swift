@@ -8,10 +8,10 @@ struct SettingsView: View {
         VStack{
             Toggle("Metronome", isOn: $metronome)
                 .padding(.horizontal)
-            Toggle("Record measures", isOn: $stopWatchManager.autoStop)
+            Toggle("Record by beats", isOn: $stopWatchManager.autoStop)
                 .padding(.horizontal)
             HStack{
-                Text("Number of bars")
+                Text("Number of beats")
                     .foregroundColor(stopWatchManager.autoStop ? .black : .gray)
                 Spacer()
                 

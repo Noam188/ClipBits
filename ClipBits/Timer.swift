@@ -10,11 +10,11 @@ import SwiftUI
 struct TimerWatch: View{
     @StateObject var audioRecorder = AudioRecorder()
     @EnvironmentObject var stopWatchManager:StopWatchManager
-    @Binding var oneIsRecording:Bool/// if one slot is recording
     @Binding var num: CGFloat
     @Binding var slots:[Slot]
     @Binding var canRecord:Bool
     @Binding var metronome:Bool
+    @Binding var oneIsRecording: Bool
     @State var audioPlayer: AVAudioPlayer!
     var body: some View {
         Circle()
@@ -43,11 +43,11 @@ struct TimerWatch: View{
         
         //    .opacity{stopWatchManager.stopCount ? 0 : 1 }
         VStack {
-            Text(stopWatchManager.countDown ? "\(stopWatchManager.secondsElapsed)" : "\(stopWatchManager.displaySeconds)" )
+            Text("\(stopWatchManager.displaySeconds)")
                 .font(.largeTitle)
             if !stopWatchManager.countDown{
                 Button(action: {
-                    canRecord.toggle()
+                    canRecord = false
                     self.stopWatchManager.stop()
                     for index in slots.indices {
                         if slots[index].isRecording {
@@ -66,6 +66,12 @@ struct TimerWatch: View{
             }
         }
         .onChange(of: stopWatchManager.stopWatchSeconds) { _ in
+            if stopWatchManager.countDown{
+                print("hello")
+                let sound = Bundle.main.path(forResource: "Beep", ofType: "mp3")
+                self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+                self.audioPlayer.play()
+            }
             if metronome{
                 if !stopWatchManager.countDown{
                     print("hello")

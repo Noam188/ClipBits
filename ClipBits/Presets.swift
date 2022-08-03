@@ -5,52 +5,38 @@ struct Presets: View{
     @Binding var openSheet:Bool
     var body: some View {
         NavigationView{
-        VStack{
-            HStack{
-                Button{
-                    presetName = "Snare"
-                    openSheet = false
-                } label: {
-                    VStack{
-                        Rectangle()
-                            .cornerRadius(30)
-                        Text("Snare")
-                    }
-                }.padding()
-                Button{
-                    presetName = "Kick"
-                    openSheet = false
-                } label: {
-                    VStack{
-                        Rectangle()
-                            .cornerRadius(30)
-                        Text("Bass Drum")
-                    }
-                }.padding()
+            ScrollView{
+                VStack(spacing:10){
+                    HStack(spacing:10){
+                        Preset(name: "Snare", text: "Snare", presetName: $presetName, openSheet: $openSheet)
+                        Preset(name: "Kick", text: "Kick drum", presetName: $presetName, openSheet: $openSheet)
+                    }.padding(.horizontal,20)
+                    HStack(spacing:10){
+                        Preset(name: "Hi-Hat", text: "Hi-hat", presetName: $presetName, openSheet: $openSheet)
+                        Preset(name: "Open-Hi", text: "Open Hi-hat", presetName: $presetName, openSheet: $openSheet)
+                    }.padding(.horizontal,20)
+                }
             }
-            HStack{
-                Button{
-                    presetName = "Hi-Hat"
-                    openSheet = false
-                } label: {
-                    VStack{
-                        Rectangle()
-                            .cornerRadius(30)
-                        Text("Hi Hat")
-                    }
-                }.padding()
-                Button{
-                    presetName = "Open-Hi"
-                    openSheet = false
-                } label: {
-                    VStack{
-                        Rectangle()
-                            .cornerRadius(30)
-                        Text("Open Hi Hat")
-                    }
-                }.padding()
+        }
+    }
+}
+struct Preset:View{
+    var name:String
+    var text:String
+    @Binding var presetName:String?
+    @Binding var openSheet:Bool
+    var body: some View{
+        Button{
+            presetName = name
+            openSheet = false
+        } label: {
+            VStack(spacing:10){
+                Rectangle()
+                    .overlay(Image(name).resizable())
+                    .cornerRadius(20)
+                    .foregroundColor(.gray)
+                Text(text)
             }
-        }.padding()
         }
     }
 }

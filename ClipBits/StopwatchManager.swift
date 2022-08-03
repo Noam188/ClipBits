@@ -24,20 +24,19 @@ class StopWatchManager: ObservableObject {
         stopWatchSeconds = -1 * secondsElapsed
         self.countDown = true
         mode = .running
-        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) {
+            _ in
+            if self.displaySeconds == 4{
+                self.displaySeconds = 1
+            }
+            else{
+                self.displaySeconds = 1 + self.displaySeconds
+            }
             self.stopWatchSeconds = 1 + self.stopWatchSeconds
             if self.countDown{
                 self.secondsElapsed = -1 + self.secondsElapsed
                 if self.secondsElapsed == -1{
                     self.countDown = false
-                }
-            }
-            else{
-                if self.displaySeconds == 4{
-                    self.displaySeconds = 1
-                }
-                else{
-                    self.displaySeconds = 1 + self.displaySeconds
                 }
             }
         }
@@ -51,3 +50,27 @@ class StopWatchManager: ObservableObject {
     }
 }
 
+class LoopWatch:ObservableObject{
+    @Published var timer = Timer()
+    @Published var secondsElapsed = -1
+    @Published var isRunning = false
+    @EnvironmentObject var stopWatchManager:StopWatchManager
+    @State var quantize = 8.0
+    
+    private var timeInterval: TimeInterval {
+        return 1 / ((Double(120) / 60.0) * quantize)
+    }
+     func start() {
+         isRunning = true
+         self.secondsElapsed = 0
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) {_ in
+            self.secondsElapsed += 1
+            print(self.secondsElapsed)
+        }
+    }
+    func stop() {
+        isRunning = false
+        self.secondsElapsed = 0
+        timer.invalidate()
+       }
+}

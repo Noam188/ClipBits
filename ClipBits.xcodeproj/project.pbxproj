@@ -38,6 +38,8 @@
 		C2B3E26C27E827C500FCF535 /* StopwatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3E26B27E827C500FCF535 /* StopwatchManager.swift */; };
 		C2B3E26E27E827F900FCF535 /* Slots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3E26D27E827F900FCF535 /* Slots.swift */; };
 		C2B3E27027E828E500FCF535 /* ButtonReduced.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B3E26F27E828E500FCF535 /* ButtonReduced.swift */; };
+		C2BC013128977FF10071D0CD /* Quantizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BC013028977FF10071D0CD /* Quantizer.swift */; };
+		C2C3E1272884915F00473C89 /* Looper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C3E1262884915F00473C89 /* Looper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +93,8 @@
 		C2B3E26B27E827C500FCF535 /* StopwatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchManager.swift; sourceTree = "<group>"; };
 		C2B3E26D27E827F900FCF535 /* Slots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slots.swift; sourceTree = "<group>"; };
 		C2B3E26F27E828E500FCF535 /* ButtonReduced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonReduced.swift; sourceTree = "<group>"; };
+		C2BC013028977FF10071D0CD /* Quantizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quantizer.swift; sourceTree = "<group>"; };
+		C2C3E1262884915F00473C89 /* Looper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Looper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,9 +162,11 @@
 				C240B5A327F01B4C0021C44A /* Timer.swift */,
 				C2B3E26B27E827C500FCF535 /* StopwatchManager.swift */,
 				C2B3E26D27E827F900FCF535 /* Slots.swift */,
-				C2598FA227EF8B1A007011EA /* ControlPannel.swift */,
 				C29C765228642085005DBCDA /* Presets.swift */,
+				C2598FA227EF8B1A007011EA /* ControlPannel.swift */,
 				C202428E278223BD00D362FD /* Start.swift */,
+				C2C3E1262884915F00473C89 /* Looper.swift */,
+				C2BC013028977FF10071D0CD /* Quantizer.swift */,
 				C29246D826E928E500DAE41D /* RecordingDataModel.swift */,
 				C29246DA26E929A100DAE41D /* Extensions.swift */,
 				C29246DC26E929B600DAE41D /* Helper.swift */,
@@ -343,7 +349,9 @@
 				C29246DB26E929A100DAE41D /* Extensions.swift in Sources */,
 				C20266D626EA7FBE00BC9BF1 /* RecordingSlot.swift in Sources */,
 				C29246DD26E929B600DAE41D /* Helper.swift in Sources */,
+				C2BC013128977FF10071D0CD /* Quantizer.swift in Sources */,
 				C29246D126E9280400DAE41D /* AudioRecorder.swift in Sources */,
+				C2C3E1272884915F00473C89 /* Looper.swift in Sources */,
 				C202428F278223BD00D362FD /* Start.swift in Sources */,
 				C2B3E26E27E827F900FCF535 /* Slots.swift in Sources */,
 				C240B5A427F01B4C0021C44A /* Timer.swift in Sources */,
