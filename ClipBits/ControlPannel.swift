@@ -22,7 +22,6 @@ struct ControlPannel: View{
     @Binding var oneIsRecording:Bool
     @Binding var showSettings: Bool
     @Binding var metronome:Bool
-    @Binding var linked:Bool
     @EnvironmentObject var stopWatchManager:StopWatchManager
     @State var font = 33
     func hasAtLeastOneChecked() -> Bool {
@@ -41,11 +40,6 @@ struct ControlPannel: View{
     
     var body: some View {
         HStack(){
-            ImageButton(imageName: "gearshape.fill" , imageNameAlt: "gearshape", dependent: showSettings, buttonColor: .orange){
-                    if edit == false, canRecord == false {
-                        showSettings.toggle()
-                    }
-            }.sheet(isPresented: $showSettings, content: {SettingsView( metronome: $metronome)})
             ImageButton(imageName: "repeat.circle.fill", imageNameAlt: "repeat.circle", dependent: loopState, buttonColor: .green){
                 if edit == false, canRecord == false {
                     loopState.toggle()
@@ -79,18 +73,17 @@ struct ControlPannel: View{
                     }
                 }
             }
+            ImageButton(imageName: "gearshape.fill" , imageNameAlt: "gearshape", dependent: showSettings, buttonColor: .orange){
+                    if edit == false, canRecord == false {
+                        showSettings.toggle()
+                    }
+            }.sheet(isPresented: $showSettings, content: {SettingsView( metronome: $metronome)})
             ImageButton(imageName: "mic.circle.fill", imageNameAlt: "mic.circle", dependent: canRecord, buttonColor: .red){
                 if loopState == false, edit == false, oneIsRecording == false{
                     stopWatchManager.secondsElapsed = Int(num)
                     canRecord.toggle()
                 }
             }
-            ImageButton(imageName: "link.circle.fill", imageNameAlt: "link.circle", dependent: linked, buttonColor: .purple){
-                if canRecord == false, loopState == false{
-                    edit.toggle()
-                }
-            }
-
             
             Button(action: {
                 if num == 3 {
