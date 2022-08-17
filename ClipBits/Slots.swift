@@ -9,10 +9,7 @@ struct Slot: Identifiable {
     var loopArr = [[Bool]]()
     var isLooping = false
     var preset:String? = nil
-    var isLinked1 = false
-    var isLinked2 = false
-    var isLinked3 = false
-    var isLinked4 = false
+    var isLinked = [false,false,false,false]
     init(id: String) {
         self.id = id
         loopEdit = false
@@ -22,10 +19,7 @@ struct Slot: Identifiable {
         isLooping = false
         loopArr = [[Bool]]()
         preset = nil
-        isLinked1 = false
-        isLinked2 = false
-        isLinked3 = false
-        isLinked4 = false
+        isLinked = [false,false,false,false]
         beenRecorded = UserDefaults.standard.bool(forKey: id)
     }
 }

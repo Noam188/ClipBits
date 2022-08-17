@@ -3,6 +3,7 @@ import SwiftUI
 let lineWidth: CGFloat = 30
 let radius: CGFloat = 70
 struct ContentView: View{
+    @StateObject var audioRecorder = AudioRecorder()
     @State var canRecord = false /// this is for enabling/disabling universal recording ability
     @State var oneIsRecording = false /// if one slot is recording
     @State var edit = false
@@ -14,13 +15,11 @@ struct ContentView: View{
     @State var shallRecord = false
     @State var showQuant = false
     @State var numOflinks = 0
-    @State var canLink1 = false
-    @State var canLink2 = false
-    @State var canLink3 = false
-    @State var canLink4 = false
+    @State var canLink = [false,false,false,false]
+    @State var areLinking = [false,false,false,false]
     func atLeastOne()->Bool{
         for index in slots.indices {
-            if slots[index].isLinked1 || slots[index].isLinked2 || slots[index].isLinked3 || slots[index].isLinked4{
+            if slots[index].isLinked[numOflinks]{
                 return true
             }
         }
@@ -28,6 +27,7 @@ struct ContentView: View{
     }
     var id:String?
     @ObservedObject var stopWatchManager = StopWatchManager()
+    @ObservedObject var looper = LoopWatch()
     @State var slots = [
         Slot(id: "slot0"),
         Slot(id: "slot1"),
@@ -45,28 +45,44 @@ struct ContentView: View{
     init(id:String?){
         self.id = id
     }
-    func atLeastLink()->Bool{
-        if canLink1 || canLink2 || canLink3 || canLink4{
-            return true
+    func show()->Bool{
+        for i in areLinking{
+            if i == false{
+                return true
+            }
         }
         return false
     }
-    func turnOff(){
-        canLink1 = false
-        canLink2 = false
-        canLink3 = false
-        canLink4 = false
+    func newBack(){
+        var num = 0
+        for i in 0...3{
+            var taken = false
+            for index in slots.indices {
+            if slots[index].isLinked[i] {
+                    taken = true
+                }
+            }
+            if taken{
+            num += 1
+            } else {
+                numOflinks = num
+                return
+            }
+        }
+        numOflinks = num
     }
     var body: some View{
         ZStack{
             VStack{
+
                 ControlPannel(canRecord: $canRecord, loopState: $loopState, edit: $edit, num: $num, slots: $slots, oneIsRecording: $oneIsRecording, showSettings: $showSettings, metronome: $metronome)
                     .environmentObject(stopWatchManager)
                     .padding(.top,40)
                 ZStack{
-                    if atLeastOne(){
+                    if atLeastOne() && canLink[numOflinks]{
                         Button(action: {
-                            turnOff()
+                            areLinking[numOflinks] = true
+                            canLink[numOflinks] = false
                         }){
                             ZStack{
                             Rectangle()
@@ -84,17 +100,42 @@ struct ContentView: View{
                     
                 }
                 .environmentObject(stopWatchManager)
-                ButtonReduced(slots: $slots, canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, num: $num, loopState: $loopState, oneIsLooping: $oneIsLooping, canLink1: $canLink1, canLink2: $canLink2, canLink3: $canLink3, canLink4: $canLink4).environmentObject(stopWatchManager)
+                ButtonReduced(slots: $slots, canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, num: $num, loopState: $loopState, oneIsLooping: $oneIsLooping,numOflinks: $numOflinks,canLink:$canLink).environmentObject(stopWatchManager)
                     .padding()
             Text("My backing tracks:")
                 ZStack{
                 Rectangle()
                         .foregroundColor(.gray)
                         .cornerRadius(20)
-                        .frame(height: 75)
                         .padding(.horizontal)
                     HStack{
-                        
+                        if areLinking[0]{
+                            Linked(slots: $slots, numID: 0)
+                        }
+                        if areLinking[1]{
+                            Linked(slots: $slots, numID: 1)
+                        }
+                        if areLinking[2]{
+                            Linked(slots: $slots, numID: 2)
+                        }
+                        if areLinking[3]{
+                            Linked(slots: $slots, numID: 3)
+                        }
+                        if show(){
+                        Button(action: {
+                            newBack()
+                            canLink[numOflinks] = true
+                            }){
+                                VStack{
+                            Image(systemName: "plus.circle")
+                              .font(.system(size: 55))
+                              .foregroundColor(.black)
+                              .background(Color(.white))
+                              .cornerRadius(100)
+                            Image(systemName: "checkmark.circle")
+                                }
+                            }
+                        }
                     }
                 }
                 }

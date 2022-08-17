@@ -55,17 +55,16 @@ class LoopWatch:ObservableObject{
     @Published var secondsElapsed = -1
     @Published var isRunning = false
     @EnvironmentObject var stopWatchManager:StopWatchManager
-    @State var quantize = 8.0
     
     private var timeInterval: TimeInterval {
-        return 1 / ((Double(120) / 60.0) * quantize)
+        return 1 / ((Double(120) / 60.0) * 8.0)
     }
      func start() {
-         isRunning = true
+         self.isRunning = true
          self.secondsElapsed = 0
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) {_ in
             self.secondsElapsed += 1
-            print(self.secondsElapsed)
+
         }
     }
     func stop() {

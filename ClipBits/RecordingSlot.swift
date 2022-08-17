@@ -1,7 +1,12 @@
 import SwiftUI
 import AVFoundation
+struct Test{
+    var num = 0
+    var itiration = 0
+}
 struct ButtonSlot: View {
     @State var audioPlayer2: AVAudioPlayer!
+    @State var test = Test()
     @EnvironmentObject var stopWatchManager:StopWatchManager
     @Binding var slot: Slot
     @Binding var canRecord: Bool /// whether recording is enabled for all slots
@@ -10,10 +15,8 @@ struct ButtonSlot: View {
     @Binding var loopState: Bool
     @Binding var oneIsLooping: Bool
     //backing track stuff
-    @Binding var canLink1:Bool
-    @Binding var canLink2:Bool
-    @Binding var canLink3:Bool
-    @Binding var canLink4:Bool
+    @Binding var numOfLinks:Int
+    @Binding var canLink:[Bool]
     //graphics variables
     @State var fade = false
     @State var fade2 = false
@@ -35,29 +38,6 @@ struct ButtonSlot: View {
     @State var dict4 = [false,false,false,false]
     var index: Int
     // functions
-    func whichLink()->Bool{
-        if canLink1{
-            return slot.isLinked1
-        } else if canLink2{
-            return slot.isLinked2
-        } else if canLink3{
-            return slot.isLinked3
-        } else{
-            return slot.isLinked4
-        }
-    }
-    func toggleWhich(){
-        if canLink1{
-            slot.isLinked1.toggle()
-        } else if canLink2{
-           slot.isLinked2.toggle()
-        } else if canLink3{
-            slot.isLinked3.toggle()
-        } else{
-            slot.isLinked4.toggle()
-        }
-
-    }
     func getValue(val: CGFloat) -> String {
         return String(format: "%.2f", val)
     }
@@ -79,7 +59,6 @@ struct ButtonSlot: View {
             let sound = Bundle.main.path(forResource: slot.preset, ofType: "mp3")
             self.audioPlayer2 = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
             self.audioPlayer2.play()
-            print("balls")
         }
     }
     var body: some View {
@@ -142,7 +121,6 @@ struct ButtonSlot: View {
                             }
                         }
                         .gesture(LongPressGesture().onChanged { _ in
-                            if whichLink() == true{
                                 if !slot.isLooping {
                                     quickAudio()
                                     print(slot.isLooping)
@@ -151,12 +129,8 @@ struct ButtonSlot: View {
                                     loopWatch.stop()
                                     loopWatch.start()
                                 }
-                            } else {
-                                toggleWhich()
-                            }
                         })
                         .onChange(of: loopWatch.secondsElapsed) { _ in
-                            //                        quickAudio()
                             if loopWatch.isRunning == true{
                                 print(slot.loopArr)
                                 print(loopWatch.secondsElapsed % (32/slot.loopArr[itiration].count))
@@ -231,19 +205,11 @@ struct ButtonSlot: View {
                         }
                     }
                 }
-                if whichLink() && (slot.beenRecorded == true || slot.preset != nil){
+                if canLink[numOfLinks] && (slot.beenRecorded == true || slot.preset != nil){
                     Button(action: {
-                        if canLink1{
-                            slot.isLinked1.toggle()
-                        } else if canLink2{
-                            slot.isLinked2.toggle()
-                        } else if canLink3{
-                            slot.isLinked3.toggle()
-                        } else {
-                            slot.isLinked4.toggle()
-                        }
+                        slot.isLinked[numOfLinks].toggle()
                     }) {
-                        Image(systemName: whichLink() ? "checkmark.circle.fill" : "checkmark.circle")
+                        Image(systemName: slot.isLinked[numOfLinks] ? "checkmark.circle.fill" : "checkmark.circle")
                             .font(.system(size: 30))
                             .foregroundColor(.purple)
                     }
