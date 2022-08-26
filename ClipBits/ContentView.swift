@@ -151,21 +151,25 @@ struct ContentView: View{
                     ZStack{
                         Rectangle()
                             .frame(height: 65)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.white)
                             .cornerRadius(20)
                             .padding(.horizontal)
                         HStack(spacing:10){
                             if areLinking[0]{
                                 Linked(slots: $slots, numID: 0)
+                                    .shadow(radius: 3)
                             }
                             if areLinking[1]{
                                 Linked(slots: $slots, numID: 1)
+                                    .shadow(radius: 3)
                             }
                             if areLinking[2]{
                                 Linked(slots: $slots, numID: 2)
+                                    .shadow(radius: 3)
                             }
                             if areLinking[3]{
                                 Linked(slots: $slots, numID: 3)
+                                    .shadow(radius: 3)
                             }
                             if show(){
                                 Button(action: {
@@ -179,6 +183,7 @@ struct ContentView: View{
                                         .foregroundColor(.black)
                                         .background(Color(.white))
                                         .cornerRadius(100)
+                                        .shadow(radius: 3)
                                     
                                 }
                                 .disabled(disable())
@@ -242,7 +247,7 @@ struct underButton:View{
             
             Image(systemName: checkmark ? "pencil.circle.fill" :  "pencil.circle")
                 .font(.system(size: 30))
-                .foregroundColor(.blue)
+                .foregroundColor(.black)
             
         }
     }
