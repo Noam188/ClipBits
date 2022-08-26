@@ -21,7 +21,6 @@ struct ButtonReduced: View{
         return 0
     }
     var body: some View {
-        if !oneIsLooping{
         VStack(spacing:10){
             HStack(spacing:10){
                 ButtonSlot(slot: $slots[0], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, loopState: $loopState, oneIsLooping: $oneIsLooping, numOfLinks: $numOflinks, canLink: $canLink, audioRecorder: audioRecorder, index: 0).environmentObject(stopWatchManager)
@@ -43,9 +42,6 @@ struct ButtonReduced: View{
                 ButtonSlot(slot: $slots[10], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, loopState: $loopState, oneIsLooping: $oneIsLooping, numOfLinks: $numOflinks, canLink: $canLink, audioRecorder: audioRecorder, index: 10).environmentObject(stopWatchManager)
                 ButtonSlot(slot: $slots[11], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, loopState: $loopState, oneIsLooping: $oneIsLooping, numOfLinks: $numOflinks, canLink: $canLink, audioRecorder: audioRecorder, index: 11).environmentObject(stopWatchManager)
             }
-        }
-        } else {
-            ButtonSlot(slot:  $slots[findIndex()], canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, loopState: $loopState, oneIsLooping: $oneIsLooping, numOfLinks: $numOflinks, canLink: $canLink, audioRecorder: audioRecorder, index: findIndex()).environmentObject(stopWatchManager)
         }
     }
 }

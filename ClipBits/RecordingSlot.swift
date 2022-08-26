@@ -41,6 +41,7 @@ struct ButtonSlot: View {
     func getValue(val: CGFloat) -> String {
         return String(format: "%.2f", val)
     }
+
     func quickAudio(){
         if slot.beenRecorded == true{
             if let recording = audioRecorder.recordings.first(where: { $0.fileURL.lastPathComponent == "\(index).m4a" }) {
@@ -79,7 +80,8 @@ struct ButtonSlot: View {
                             ZStack {
                                 Rectangle()
                                     .cornerRadius(20)
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(.white)
+                                    .shadow(radius: 3)
                                 if slot.preset != nil{
                                     Image(slot.preset!).resizable()
                                 }
@@ -110,7 +112,8 @@ struct ButtonSlot: View {
                         ZStack{
                             Rectangle()
                                 .cornerRadius(20)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.white)
+                                .shadow(radius: 3)
                             if slot.preset != nil{
                                 Image(slot.preset!).resizable()
                             }
@@ -119,7 +122,9 @@ struct ButtonSlot: View {
                                     .foregroundColor((slot.isLooping && loopState) ? .green : .black)
                                     .font(.system(size: 60))
                             }
-                        }
+                        }.blur(radius: edit || loopState ? 4 : 0)
+                            .animation(.easeInOut)
+                            .animation(.easeOut)
                         .gesture(LongPressGesture().onChanged { _ in
                                 if !slot.isLooping {
                                     quickAudio()
@@ -153,58 +158,6 @@ struct ButtonSlot: View {
                         }
                     }
                 }
-                if loopState == true && (slot.beenRecorded == true) || (loopState == true && slot.preset != nil) {
-                    HStack{
-                        Button(action:{
-                            loopWatch.stop()
-                            slot.isLooping = false
-                            if audioPlayer.isPlaying{
-                                audioPlayer.stopPlayback()
-                            }
-                            num = 0
-                            itiration = 0
-                            slot.loopArr = []
-                            dict = [false,false,false,false]
-                            dict2 = [false,false,false,false]
-                            dict3 = [false,false,false,false]
-                            dict4 = [false,false,false,false]
-                        }){
-                            Image(systemName: "xmark.circle")
-                                .font(.system(size: 30))
-                                .foregroundColor(slot.isLooping ? .black : .gray)
-                                .font(.system(size: 60))
-                                .disabled(slot.isLooping)
-                            
-                        }
-                        Button(action:{
-                            slot.isLooping = true
-                            oneIsLooping = true
-                            slot.loopEdit = true
-                        }){
-                            Image(systemName: slot.isLooping ? "repeat.circle.fill" : "repeat.circle")
-                                .font(.system(size: 30))
-                                .foregroundColor(.green )
-                                .font(.system(size: 60))
-                            
-                        }
-                        
-                        Button(action:{
-                            loopWatch.stop()
-                            if audioPlayer.isPlaying{
-                                audioPlayer.stopPlayback()
-                            }
-                            num = 0
-                            itiration = 0
-                        }){
-                            Image(systemName: "stop.circle")
-                                .font(.system(size: 30))
-                                .foregroundColor(loopWatch.isRunning ? .black : .gray)
-                                .font(.system(size: 60))
-                                .disabled(loopWatch.isRunning)
-                            
-                        }
-                    }
-                }
                 if canLink[numOfLinks] && (slot.beenRecorded == true || slot.preset != nil){
                     Button(action: {
                         slot.isLinked[numOfLinks].toggle()
@@ -214,130 +167,131 @@ struct ButtonSlot: View {
                             .foregroundColor(.purple)
                     }
                 }
-                if edit == true {
-                    HStack{
-                        if slot.preset != nil || slot.beenRecorded == true{
-                            Button(action: {
-                                slot.preset = nil
-                                slot.beenRecorded = false
-                                UserDefaults.standard.set(false, forKey: slot.id)
-                            }) {
-                                Image(systemName: "trash.circle")
-                                    .font(.system(size: 30))
-                                    .foregroundColor(.red)
-                            }
+                //            }
+            }
+            if edit == true {
+                HStack(spacing:1){
+                    if slot.preset != nil || slot.beenRecorded == true{
+                        Button(action: {
+                            slot.preset = nil
+                            slot.beenRecorded = false
+                            UserDefaults.standard.set(false, forKey: slot.id)
+                        }) {
+                            Image(systemName: "trash.circle")
+                                .font(.system(size: 45))
+                                .foregroundColor(.red)
+                                .background(Color(.white))
+                                .cornerRadius(100)
                         }
-                        if slot.beenRecorded == false{
-                            Button(action: {
-                                openSheet = true
-                                print("toggled")
-                            }) {
-                                Image(systemName: "arrow.down.circle")
-                                    .font(.system(size: 30))
-                            }
+                    }
+                    if slot.beenRecorded == false{
+                        Button(action: {
+                            openSheet = true
+                            print("toggled")
+                        }) {
+                            Image(systemName: "arrow.down.circle")
+                                .font(.system(size: 45))
+                                .background(Color(.white))
+                                .cornerRadius(100)
                         }
                     }
                 }
-                //            }
             }
-            if oneIsLooping {
-                Rectangle()
-                    .cornerRadius(20)
-                    .foregroundColor(.white)
-                
-                ZStack{
-                    VStack{
-                        HStack{
-                            Button(action:{
-                                oneIsLooping = false
-                                slot.loopEdit = false
-                                if  selectedMeasure == "1 measure"{
-                                    slot.loopArr.append(dict)
-                                } else if selectedMeasure == "2 measures"{
-                                    slot.loopArr.append(dict)
-                                    slot.loopArr.append(dict2)
-                                } else if selectedMeasure == "3 measures"{
-                                    slot.loopArr.append(dict)
-                                    slot.loopArr.append(dict2)
-                                    slot.loopArr.append(dict3)
-                                } else if selectedMeasure == "4 measures"{
-                                    slot.loopArr.append(dict)
-                                    slot.loopArr.append(dict2)
-                                    slot.loopArr.append(dict3)
-                                    slot.loopArr.append(dict4)
-                                }
-                                print(slot.loopArr)
-                                print(slot.isLooping)
-                            }){
-                                Text("Done")
-                                    .foregroundColor(.blue)
-                            }.padding(.leading)
-                            Spacer()
-                            
-                            Text("Edit in")
-                            
-                            Picker("Notes", selection: $selected) {
-                                ForEach(notes, id: \.self) {
-                                    Text($0)
-                                }
-                            }.pickerStyle(MenuPickerStyle())
-                                .onReceive(selected.publisher.first()){ _ in
-                                    if selected == "1/1 notes"{
-                                        dict = [false]
-                                    } else if selected == "1/2 notes"{
-                                        dict = [false,false]
-                                    } else if selected == "1/4 notes"{
-                                        dict = [false,false,false,false]
-                                    } else if selected == "1/8 notes"{
-                                        dict = [false,false,false,false,false,false,false,false]
-                                    } else if selected == "1/16 notes"{
-                                        dict = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-                                    } else {
-                                        dict = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+            if loopState == true && (slot.beenRecorded == true) || (loopState == true && slot.preset != nil) {
+                VStack(spacing:1){
+                    HStack(spacing:1){
+                    Button(action:{
+                        loopWatch.stop()
+                        slot.isLooping = false
+                        if audioPlayer.isPlaying{
+                            audioPlayer.stopPlayback()
+                        }
+                        num = 0
+                        itiration = 0
+                        slot.loopArr = []
+                        dict = [false,false,false,false]
+                        dict2 = [false,false,false,false]
+                        dict3 = [false,false,false,false]
+                        dict4 = [false,false,false,false]
+                    }){
+                        Image(systemName: "xmark.circle")
+                            .foregroundColor(slot.isLooping ? .black : .gray)
+                            .font(.system(size: 45))
+                            .background(Color(.white))
+                            .cornerRadius(100)
+                            .disabled(slot.isLooping)
+                        
+                    }
+                    Button(action:{
+                        slot.isLooping = true
+                        oneIsLooping = true
+                        slot.loopEdit = true
+                    }){
+                        Image(systemName: slot.isLooping ? "repeat.circle.fill" : "repeat.circle")
+                            .foregroundColor(.green )
+                            .font(.system(size: 45))
+                            .background(Color(.white))
+                            .cornerRadius(100)
+                        
+                    }
+                }
+                HStack(spacing:1){
+                    Button(action:{
+                        loopWatch.stop()
+                        if audioPlayer.isPlaying{
+                            audioPlayer.stopPlayback()
+                        }
+                        num = 0
+                        itiration = 0
+                    }){
+                        Image(systemName: "stop.circle")
+                            .foregroundColor(loopWatch.isRunning ? .black : .gray)
+                            .font(.system(size: 45))
+                            .background(Color(.white))
+                            .cornerRadius(100)
+                    }
+                        Image(systemName: "play.circle")
+                        .foregroundColor(slot.isLooping ? .black  : .gray)
+                            .font(.system(size: 45))
+                            .background(Color(.white))
+                            .cornerRadius(100)
+                            .gesture(LongPressGesture().onChanged { _ in
+                                    if !slot.isLooping {
+                                        quickAudio()
+                                        print(slot.isLooping)
+                                    }
+                                    if slot.isLooping{
+                                        loopWatch.stop()
+                                        loopWatch.start()
+                                    }
+                            })
+                            .disabled(!slot.isLooping)
+                            .onChange(of: loopWatch.secondsElapsed) { _ in
+                                if loopWatch.isRunning == true{
+                                    print(slot.loopArr)
+                                    print(loopWatch.secondsElapsed % (32/slot.loopArr[itiration].count))
+                                    if loopWatch.secondsElapsed % (32/slot.loopArr[itiration].count) == 0{
+                                        if slot.loopArr[itiration][num] == true{
+                                            quickAudio()
+                                        }
+                                        if (itiration + 1) == slot.loopArr.count{
+                                            itiration = 0
+                                        } else {
+                                            itiration += 1
+                                        }
+                                        if (num + 1) == slot.loopArr[itiration].count{
+                                            num = 0
+                                        } else {
+                                            num += 1
+                                        }
                                     }
                                 }
-                            Spacer()
-                            Text("Done")
-                                .foregroundColor(.clear)
-                                .padding(.trailing)
-                        }
-                        HStack{
-                            Text("Across")
-                            Picker("Measures", selection: $selectedMeasure) {
-                                ForEach(measures, id: \.self) {
-                                    Text($0)
-                                }
                             }
-                            .pickerStyle(MenuPickerStyle())
-                            .onReceive(selectedMeasure.publisher.first()){ _ in
-                                for i in 0...dict.count-1{
-                                    dict[i] = false
-                                }
-                                dict2 = dict
-                                dict3 = dict
-                                dict4 = dict
-                            }
-                        }
-                        
-                        
-                        if selectedMeasure == "1 measure"{
-                            OneMeasure(mode:selected,dict:$dict)
-                        } else if selectedMeasure == "2 measures"{
-                            OneMeasure(mode:selected,dict:$dict)
-                            OneMeasure(mode:selected,dict:$dict2)
-                        } else if selectedMeasure == "3 measures"{
-                            OneMeasure(mode:selected,dict:$dict)
-                            OneMeasure(mode:selected,dict:$dict2)
-                            OneMeasure(mode:selected,dict:$dict3)
-                        } else if selectedMeasure == "4 measures"{
-                            OneMeasure(mode:selected,dict:$dict)
-                            OneMeasure(mode:selected,dict:$dict2)
-                            OneMeasure(mode:selected,dict:$dict3)
-                            OneMeasure(mode:selected,dict:$dict4)
-                        }
-                    }
-                }.padding()
+                    
+                }
+                }
             }
+
         }
     }
 }

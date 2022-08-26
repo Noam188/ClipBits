@@ -73,3 +73,39 @@ class LoopWatch:ObservableObject{
         timer.invalidate()
        }
 }
+class RecTimer:ObservableObject{
+    @Published var timer = Timer()
+    @Published var secondsElapsed = -1
+    @Published var displaySeconds = 1
+    @Published var isRunning = false
+    @Published var runsThrough = 0
+    @EnvironmentObject var stopWatchManager:StopWatchManager
+    
+    private var timeInterval: TimeInterval {
+        return 1 / ((Double(120) / 60.0) * 8.0)
+    }
+    func start() {
+         self.isRunning = true
+         self.secondsElapsed = 0
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) {_ in
+            self.secondsElapsed += 1
+            if self.secondsElapsed % 32 == 0{
+                self.runsThrough += 1
+            }
+            if self.secondsElapsed % 8 == 0{
+                if self.displaySeconds != 4{
+                self.displaySeconds += 1
+                } else {
+                    self.displaySeconds = 1
+                }
+            }
+        }
+    }
+    func stop() {
+        timer.invalidate()
+        isRunning = false
+        self.secondsElapsed = -1
+        self.secondsElapsed = 1
+        self.runsThrough = 0
+       }
+}

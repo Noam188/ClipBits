@@ -70,19 +70,6 @@ struct Linked: View{
                         }
                     }
                 }
-                Button(action: {
-                    isPlaying.toggle()
-                    loopWatch.stop()
-                    if isPlaying == true{
-                    loopWatch.start()
-                    }
-                }){
-                    Image(systemName: isPlaying ? "stop.circle" : "play.circle")
-                        .font(.system(size: 55))
-                        .foregroundColor(.black)
-                        .background(Color(.white))
-                        .cornerRadius(100)
-                }
             }
         }
     }
