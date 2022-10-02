@@ -3,8 +3,6 @@ import AVKit
 struct LoopingTab:View{
     @Binding var oneIsLooping:Bool
     @Binding var slot:Slot
-    @StateObject var audioPlayer = AudioPlayer()
-    @StateObject var audioRecorder = AudioRecorder()
     @State var audioPlayer2:AVAudioPlayer!
     @State var itiration = 0
     @State var num = 0
@@ -14,13 +12,23 @@ struct LoopingTab:View{
     let input = ["Manually input","Record"]
     let notes = ["1/1 notes","1/2 notes","1/4 notes","1/8 notes","1/16 notes","1/32 notes"]
     let measures = ["1 measure","2 measures","3 measures","4 measures"]
-    @State var dict = [false,false,false,false]
-    @State var dict2 = [false,false,false,false]
-    @State var dict3 = [false,false,false,false]
-    @State var dict4 = [false,false,false,false]
+    @State var dict = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+    @State var dict2 = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+    @State var dict3 = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+    @State var dict4 = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
     @State var loopArr = [[Bool]]()
     @State var count1 = false
-    @ObservedObject var recTimer = RecTimer()
+    @EnvironmentObject var recTimer:RecTimer
+    func compArr(arr:[[Bool]])->Bool{
+        for i in arr{
+            for j in i{
+                if j == true{
+                    return false
+                }
+            }
+        }
+        return true
+    }
     var body: some View{
         Rectangle()
             .cornerRadius(20)
@@ -33,23 +41,8 @@ struct LoopingTab:View{
                         Text($0)
                     }
                 }.pickerStyle(SegmentedPickerStyle())
-                    .onReceive(inputselect.publisher.first()){ _ in
-                        if inputselect == "Manually input"{
-                            dict = [false,false,false,false]
-                            dict2 = [false,false,false,false]
-                            dict3 = [false,false,false,false]
-                            dict4 = [false,false,false,false]
-                        } else {
-                            dict = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-                            dict2 = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-                            dict3 = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-                            dict4 = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-                        }
-                    }
                 HStack{
                     Button(action:{
-                        oneIsLooping = false
-                        slot.loopEdit = false
                         if  inputselect == "Manually input"{
                         if  selectedMeasure == "1 measure"{
                             slot.loopArr.append(dict)
@@ -66,15 +59,34 @@ struct LoopingTab:View{
                             slot.loopArr.append(dict3)
                             slot.loopArr.append(dict4)
                         }
+                            
+                            slot.loopArrDef.set(slot.loopArr, forKey: slot.id)
                         } else {
                             slot.loopArr = loopArr
+                            slot.loopArrDef.set(loopArr, forKey: slot.id)
                         }
-                        self.dict = [false,false,false,false]
-                        self.dict2 = [false,false,false,false]
-                        self.dict2 = [false,false,false,false]
-                        self.dict3 = [false,false,false,false]
+                        if (dict == [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+                             && dict2 == [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+                             && dict3 == [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+                            && dict4 == [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]) && compArr(arr: loopArr){
+                            selected = "1/4 notes"
+                            selectedMeasure = "1 measure"
+                            oneIsLooping = false
+                            slot.loopEdit = false
+                        } else{
+                        dict = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+                        dict2 = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+                        dict3 = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+                        dict4 = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
+                        selected = "1/4 notes"
+                        selectedMeasure = "1 measure"
+                        oneIsLooping = false
+                        slot.loopEdit = false
+                        slot.isLooping = true
+                        slot.isLoopingDef.set(true, forKey: slot.id)
                         print(slot.loopArr)
                         print(slot.isLooping)
+                        }
                     }){
                         Text("Done")
                             .foregroundColor(.blue)
@@ -87,21 +99,6 @@ struct LoopingTab:View{
                                 Text($0)
                             }
                         }.pickerStyle(MenuPickerStyle())
-                            .onReceive(selected.publisher.first()){ _ in
-                                if selected == "1/1 notes"{
-                                    dict = [false]
-                                } else if selected == "1/2 notes"{
-                                    dict = [false,false]
-                                } else if selected == "1/4 notes"{
-                                    dict = [false,false,false,false]
-                                } else if selected == "1/8 notes"{
-                                    dict = [false,false,false,false,false,false,false,false]
-                                } else if selected == "1/16 notes"{
-                                    dict = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-                                } else {
-                                    dict = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
-                                }
-                            }
                     }
                     Spacer()
                     if inputselect == "Manually input"{
@@ -152,25 +149,34 @@ struct LoopingTab:View{
                     }
                 } else {
                     ZStack{
+                        Group{
                         Rectangle()
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .shadow(radius: 3)
-                        if slot.preset != nil{
-                            Image(slot.preset!).resizable()
+                        if slot.preset != ""{
+                            Image(slot.preset).resizable()
+                                .padding(.vertical)
                         } else {
                             Image(systemName: "waveform")
                                 .foregroundColor(.black )
                                 .font(.system(size: 100))
                         }
+                        }.blur(radius: recTimer.isRunning ? 0 : 4)
+
+                        if recTimer.isRunning == false{
+                            Image(systemName: "mic.fill")
+                                .foregroundColor(.red)
+                                .font(.system(size: 60))
+                        }
                     }.gesture(LongPressGesture().onChanged { _ in
-                        if slot.preset != nil{
+                        if slot.preset != ""{
                             let sound = Bundle.main.path(forResource: slot.preset, ofType: "mp3")
                             self.audioPlayer2 = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
                             self.audioPlayer2.play()
                         }
                         if slot.beenRecorded == true{
-                            self.audioPlayer.startPlayback()
+                            slot.audioPlayer.startPlayback()
                         }
                         print("pressed")
                         if recTimer.isRunning == false{
@@ -185,28 +191,33 @@ struct LoopingTab:View{
                             }
                             recTimer.start()
                         }
+                        
                         loopArr[itiration][num] = true
                         print("\(itiration) + \(num)")
                         print(loopArr[itiration][num])
+                        if !count1{
+                            loopArr[0][0] = false
+                        }
                         
                     })
                         .onChange(of: recTimer.secondsElapsed) { _ in
                             print(num)
-                            print(itiration)
-                            if recTimer.secondsElapsed % 32 == 0 && recTimer.secondsElapsed > 0          {
-                                if (itiration + 1) == loopArr.count{
-                                    recTimer.stop()
-                                    print(loopArr)
-                                } else {
-                                    itiration += 1
-                                }
+                            if recTimer.secondsElapsed % 8 == 0{
+                                let sound = Bundle.main.path(forResource: "Click", ofType: "mp3")
+                                self.audioPlayer2 = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+                                self.audioPlayer2.play()
                             }
-                                if (num + 1) == loopArr[itiration].count{
+                                if (num + 1) == loopArr[0].count{
+                                    if (itiration + 1) == loopArr.count{
+                                        recTimer.stop()
+                                        print(loopArr)
+                                    } else {
+                                        itiration += 1
+                                    }
                                     num = 0
                                 } else {
                                     num += 1
                                 }
-//                            }
                         }
                     
                 }
@@ -214,6 +225,7 @@ struct LoopingTab:View{
         }.padding()
     }
 }
+
 struct OneMeasure: View{
     var mode:String
     @Binding var dict:[Bool]
@@ -224,52 +236,52 @@ struct OneMeasure: View{
         if mode == "1/2 notes"{
             HStack{
                 ButtonSec(dict: $dict, num: 1)
-                ButtonSec(dict: $dict, num: 2)
+                ButtonSec(dict: $dict, num: 17)
             }
         }
         if mode == "1/4 notes"{
             HStack{
                 ButtonSec(dict: $dict, num: 1)
-                ButtonSec(dict: $dict, num: 2)
-                ButtonSec(dict: $dict, num: 3)
-                ButtonSec(dict: $dict, num: 4)
+                ButtonSec(dict: $dict, num: 9)
+                ButtonSec(dict: $dict, num: 17)
+                ButtonSec(dict: $dict, num: 25)
             }
         }
         if mode == "1/8 notes"{
             HStack{
                 ButtonSec(dict: $dict, num: 1)
-                ButtonSec(dict: $dict, num: 2)
-                ButtonSec(dict: $dict, num: 3)
-                ButtonSec(dict: $dict, num: 4)
                 ButtonSec(dict: $dict, num: 5)
-                ButtonSec(dict: $dict, num: 6)
-                ButtonSec(dict: $dict, num: 7)
-                ButtonSec(dict: $dict, num: 8)
+                ButtonSec(dict: $dict, num: 9)
+                ButtonSec(dict: $dict, num: 13)
+                ButtonSec(dict: $dict, num: 17)
+                ButtonSec(dict: $dict, num: 21)
+                ButtonSec(dict: $dict, num: 25)
+                ButtonSec(dict: $dict, num: 29)
             }
         }
         if mode == "1/16 notes"{
             VStack{
                 HStack{
                     ButtonSec(dict: $dict, num: 1)
-                    ButtonSec(dict: $dict, num: 2)
                     ButtonSec(dict: $dict, num: 3)
-                    ButtonSec(dict: $dict, num: 4)
                     ButtonSec(dict: $dict, num: 5)
-                    ButtonSec(dict: $dict, num: 6)
                     ButtonSec(dict: $dict, num: 7)
-                    ButtonSec(dict: $dict, num: 8)
+                    ButtonSec(dict: $dict, num: 9)
+                    ButtonSec(dict: $dict, num: 11)
+                    ButtonSec(dict: $dict, num: 13)
+                    ButtonSec(dict: $dict, num: 15)
                 }
                 HStack{
-                    ButtonSec(dict: $dict, num: 9)
-                    ButtonSec(dict: $dict, num: 10)
-                    ButtonSec(dict: $dict, num: 11)
-                    ButtonSec(dict: $dict, num: 12)
-                    ButtonSec(dict: $dict, num: 13)
-                    ButtonSec(dict: $dict, num: 14)
-                    ButtonSec(dict: $dict, num: 15)
-                    ButtonSec(dict: $dict, num: 16)
+                    ButtonSec(dict: $dict, num: 17)
+                    ButtonSec(dict: $dict, num: 19)
+                    ButtonSec(dict: $dict, num: 21)
+                    ButtonSec(dict: $dict, num: 23)
+                    ButtonSec(dict: $dict, num: 25)
+                    ButtonSec(dict: $dict, num: 27)
+                    ButtonSec(dict: $dict, num: 29)
+                    ButtonSec(dict: $dict, num: 31)
                 }
-                
+
             }
         }
         if mode == "1/32 notes"{
@@ -326,13 +338,12 @@ struct ButtonSec:View{
     var body: some View{
         Button(action:{
             dict[num-1].toggle()
-            colorBut.toggle()
             print(dict)
         }){
             Rectangle()
                 .cornerRadius(2)
                 .shadow(radius: 3)
-                .foregroundColor(colorBut ? .blue : .white)
+                .foregroundColor(dict[num-1] ? .blue : .white)
         }
     }
 }

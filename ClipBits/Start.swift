@@ -7,19 +7,27 @@ import SwiftUI
 
     var body: some View {
         NavigationView {
+//            ScrollView{
+//                ZStack{
             VStack {
-                List(boardList) { boardItem in
-                    NavigationLink(
-                        destination: boardList[boardItem.num].clipBit
-                            .navigationTitle(boardList[boardItem.num].name)
-                            .navigationBarTitleDisplayMode(.inline)
-                    ){
-                        HStack {
-                            Text(boardItem.name)
+                List{
+                    ForEach(boardList) { boardItem in
+                        NavigationLink(
+                            destination: boardList[boardItem.num].clipBit
+                                .navigationTitle(boardList[boardItem.num].name)
+                                .navigationBarTitleDisplayMode(.inline)
+                        ){
+                            HStack {
+                                Text(boardItem.name)
+                            }
                         }
-                    }
+                          }.onDelete { boardItem in
+                              boardList.remove(atOffsets: boardItem)
+                            }
                 }
             }
+//        }.background(LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .topLeading, endPoint: .bottomTrailing))
+//            }
             .navigationBarTitle("Your ClipBits")
             .navigationBarItems(trailing: Button(action: {
                     showingSheet = true
@@ -35,8 +43,23 @@ import SwiftUI
             }
             text = ""
         } content: {
+            VStack{
+                HStack{
+                Button(action: {
+                    showingSheet = false
+                }){
+                    Text("Done")
+                        .foregroundColor(.blue)
+                }.padding()
+                    Spacer()
+            }
+                Spacer()
             TextField("Enter new name", text: $text)
                 .padding()
+                .background(Color.white)
+                .shadow(radius: 1)
+                Spacer()
+            }
         }
     }
 }

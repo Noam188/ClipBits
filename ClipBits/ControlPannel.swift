@@ -44,7 +44,6 @@ struct ControlPannel: View{
                 if edit == false, canRecord == false {
                     loopState.toggle()
                 }
-                
             }
             if hasAtLeastOneChecked() && edit {
                 Button(action: {

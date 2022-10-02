@@ -2,9 +2,9 @@
 import SwiftUI
 let lineWidth: CGFloat = 30
 let radius: CGFloat = 70
-struct ContentView: View{
+struct ContentView: Identifiable, View{
     @StateObject var audioRecorder = AudioRecorder()
-    @State var canRecord = false /// this is for enabling/disabling universal recording ability
+    @State var canRecord = false /// this is for enabling/fbling universal recording ability
     @State var oneIsRecording = false /// if one slot is recording
     @State var edit = false
     @State var num:CGFloat = 3
@@ -18,6 +18,7 @@ struct ContentView: View{
     @State var editLink = true
     @State var canLink = [false,false,false,false]
     @State var areLinking = [false,false,false,false]
+    @State var tempo = 120
     func atLeastOne()->Bool{
         for index in slots.indices {
             if slots[index].isLinked[numOflinks]{
@@ -26,9 +27,9 @@ struct ContentView: View{
         }
         return false
     }
-    var id:String?
+    var id:String
     @ObservedObject var stopWatchManager = StopWatchManager()
-    @ObservedObject var looper = LoopWatch()
+    @ObservedObject var recTimer = RecTimer()
     @State var slots = [
         Slot(id: "slot0"),
         Slot(id: "slot1"),
@@ -43,19 +44,19 @@ struct ContentView: View{
         Slot(id: "slot10"),
         Slot(id: "slot11"),
     ]
-    init(id:String?){
+    init(id:String){
         self.id = id
     }
     func checkAvailable()->Bool{
         for index in slots.indices {
-            if slots[index].preset != nil || slots[index].beenRecorded == true{
+            if slots[index].preset != "" || slots[index].beenRecorded == true && slots[index].isLooping{
                 return true
             }
         }
         return false
     }
     func disable()->Bool{
-        if !canRecord && !edit{
+        if !canRecord && !edit && !loopState{
             return false
         }
         return true
@@ -100,7 +101,7 @@ struct ContentView: View{
                 
                 ControlPannel(canRecord: $canRecord, loopState: $loopState, edit: $edit, num: $num, slots: $slots, oneIsRecording: $oneIsRecording, showSettings: $showSettings, metronome: $metronome)
                     .environmentObject(stopWatchManager)
-                    .padding(.top,40)
+
                 ZStack{
                     VStack{
                         ZStack{
@@ -109,7 +110,7 @@ struct ContentView: View{
                                     canLink[numOflinks] = false
                                     if areLinking[numOflinks] == true && !atLeastOne(){
                                         areLinking[numOflinks] = false
-                                    } else if atLeastOne() || areLinking[numOflinks] == false{
+                                    } else if atLeastOne(){
                                         areLinking[numOflinks] = true
                                     }
                                 }){
@@ -128,16 +129,16 @@ struct ContentView: View{
                                     }
                                 }.frame(height: 75).padding(.horizontal)
                             }else{
-                                BPM().environmentObject(stopWatchManager)
+                                BPM(tempo: $tempo).environmentObject(stopWatchManager).environmentObject(recTimer)
                                     .padding(.top,2)
                             }
                             
                         }
                         .environmentObject(stopWatchManager)
-                        ButtonReduced(slots: $slots, canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, num: $num, loopState: $loopState, oneIsLooping: $oneIsLooping,numOflinks: $numOflinks,canLink:$canLink).environmentObject(stopWatchManager)
+                        ButtonReduced(slots: $slots, canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, num: $num, loopState: $loopState, oneIsLooping: $oneIsLooping,numOflinks: $numOflinks,canLink:$canLink, tempo: $tempo).environmentObject(stopWatchManager)
                             .padding()
                     }
-                    LoopingTab(oneIsLooping: $oneIsLooping, slot: $slots[findCurrentSlot()])
+                    LoopingTab(oneIsLooping: $oneIsLooping, slot: $slots[findCurrentSlot()]).environmentObject(recTimer)
                         .opacity(oneIsLooping ? 1 : 0)
                         .scaleEffect(oneIsLooping ? 1 : 0.01)
                         .animation(.easeInOut)
@@ -146,73 +147,10 @@ struct ContentView: View{
                         .shadow(radius: 4)
                     
                 }
-                Text("My backing tracks:")
-                VStack{
-                    ZStack{
-                        Rectangle()
-                            .frame(height: 65)
-                            .foregroundColor(.white)
-                            .cornerRadius(20)
-                            .padding(.horizontal)
-                        HStack(spacing:10){
-                            if areLinking[0]{
-                                Linked(slots: $slots, numID: 0)
-                                    .shadow(radius: 3)
-                            }
-                            if areLinking[1]{
-                                Linked(slots: $slots, numID: 1)
-                                    .shadow(radius: 3)
-                            }
-                            if areLinking[2]{
-                                Linked(slots: $slots, numID: 2)
-                                    .shadow(radius: 3)
-                            }
-                            if areLinking[3]{
-                                Linked(slots: $slots, numID: 3)
-                                    .shadow(radius: 3)
-                            }
-                            if show(){
-                                Button(action: {
-                                    if checkAvailable(){
-                                        newBack()
-                                        canLink[numOflinks] = true
-                                    }
-                                }){
-                                    Image(systemName: "plus.circle")
-                                        .font(.system(size: 55))
-                                        .foregroundColor(.black)
-                                        .background(Color(.white))
-                                        .cornerRadius(100)
-                                        .shadow(radius: 3)
-                                    
-                                }
-                                .disabled(disable())
-                            }
-                        }
-                    }
-                    HStack(spacing:40){
-                        if areLinking[0]{
-                            underButton(num: 0, dependent: $canLink, link: $editLink)
-                        }
-                        if areLinking[1]{
-                            underButton(num: 1, dependent: $canLink, link: $editLink)
-                        }
-                        if areLinking[2]{
-                            underButton(num: 2, dependent: $canLink, link: $editLink)
-                        }
-                        if areLinking[3]{
-                            underButton(num: 3, dependent: $canLink, link: $editLink)
-                        }
-                        if show(){
-                            Image(systemName: "trash.circle")
-                                .font(.system(size: 30))
-                                .foregroundColor(.clear)
-                        }
-                    }
-                }
-            }
+            }.padding(.top,75)
+                .padding(.bottom,15)
             Rectangle()
-                .frame(width: 200, height: 200)
+                .frame(width: UIScreen.main.bounds.size.width / 2, height: UIScreen.main.bounds.size.width / 2)
                 .cornerRadius(25)
                 .foregroundColor(.white)
                 .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
@@ -227,7 +165,7 @@ struct ContentView: View{
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(id: nil)
+        ContentView(id: "preview")
     }
 }
 struct underButton:View{

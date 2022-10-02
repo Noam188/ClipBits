@@ -3,11 +3,15 @@
 import SwiftUI
 
 struct BPM: View{
+    @Binding var tempo:Int
     @EnvironmentObject var stopWatchManager:StopWatchManager
+    @EnvironmentObject var recTimer:RecTimer
     var body: some View {
         HStack{
             Button(action: {
+                tempo -= 1
                 stopWatchManager.tempo -= 1
+                recTimer.tempo -= 1
             }) {
                 ZStack{
                     Triangle()
@@ -28,13 +32,15 @@ struct BPM: View{
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     .shadow(radius: 3)
-                Text("\(Int(stopWatchManager.tempo))")
+                Text("\(Int(tempo))")
                     .font(.system(size: 30))
                     .fontWeight(.light)
                 
             }.frame(width: 75, height: 75)
             Button(action: {
+                tempo += 1
                 stopWatchManager.tempo += 1
+                recTimer.tempo += 1
             }) {
                 ZStack{
                     Triangle()

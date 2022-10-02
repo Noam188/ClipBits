@@ -1,4 +1,8 @@
 import SwiftUI
+struct Tempo{
+   @State var tempo = 120
+}
+var tempo = Tempo()
 class StopWatchManager: ObservableObject {
     @Published var secondsElapsed = 3
     @Published var stopWatchSeconds = 0
@@ -6,11 +10,10 @@ class StopWatchManager: ObservableObject {
     @Published var bars = 1
     @Published var mode: StopWatchMode = .stopped
     @Published var timer = Timer()
-    @Published var tempo:CGFloat = 120
     @Published var autoStop = false
     @Published var numberOfBeats = 1
+    @Published var tempo = 120
     var countDown = false
-    
     enum StopWatchMode {
         case running
         case stopped
@@ -51,13 +54,14 @@ class StopWatchManager: ObservableObject {
 }
 
 class LoopWatch:ObservableObject{
+    @Published var tempo = 120
     @Published var timer = Timer()
     @Published var secondsElapsed = -1
     @Published var isRunning = false
     @EnvironmentObject var stopWatchManager:StopWatchManager
     
     private var timeInterval: TimeInterval {
-        return 1 / ((Double(120) / 60.0) * 8.0)
+        return 1 / ((Double(tempo) / 60.0) * 4.0)
     }
      func start() {
          self.isRunning = true
@@ -79,19 +83,15 @@ class RecTimer:ObservableObject{
     @Published var displaySeconds = 1
     @Published var isRunning = false
     @Published var runsThrough = 0
-    @EnvironmentObject var stopWatchManager:StopWatchManager
-    
+    @Published var tempo = 120
     private var timeInterval: TimeInterval {
-        return 1 / ((Double(120) / 60.0) * 8.0)
+        return 1 / ((Double(tempo) / 60.0) * 8.0)
     }
     func start() {
          self.isRunning = true
          self.secondsElapsed = 0
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) {_ in
             self.secondsElapsed += 1
-            if self.secondsElapsed % 32 == 0{
-                self.runsThrough += 1
-            }
             if self.secondsElapsed % 8 == 0{
                 if self.displaySeconds != 4{
                 self.displaySeconds += 1
