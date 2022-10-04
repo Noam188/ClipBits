@@ -9,6 +9,7 @@ struct LoopingTab:View{
     @State var selected = "1/4 notes"
     @State var inputselect = "Manually input"
     @State private var selectedMeasure = "1 measure"
+    @Binding var metronome:Bool
     let input = ["Manually input","Record"]
     let notes = ["1/1 notes","1/2 notes","1/4 notes","1/8 notes","1/16 notes","1/32 notes"]
     let measures = ["1 measure","2 measures","3 measures","4 measures"]
@@ -59,11 +60,10 @@ struct LoopingTab:View{
                             slot.loopArr.append(dict3)
                             slot.loopArr.append(dict4)
                         }
-                            
-                            slot.loopArrDef.set(slot.loopArr, forKey: slot.id)
+                            UserDefaults.standard.set(slot.loopArr, forKey: "arr\(slot.id)")
                         } else {
                             slot.loopArr = loopArr
-                            slot.loopArrDef.set(loopArr, forKey: slot.id)
+                            UserDefaults.standard.set(loopArr, forKey: "arr\(slot.id)")
                         }
                         if (dict == [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
                              && dict2 == [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
@@ -83,7 +83,7 @@ struct LoopingTab:View{
                         oneIsLooping = false
                         slot.loopEdit = false
                         slot.isLooping = true
-                        slot.isLoopingDef.set(true, forKey: slot.id)
+                        UserDefaults.standard.set(true, forKey: "l\(slot.id)")
                         print(slot.loopArr)
                         print(slot.isLooping)
                         }
@@ -202,7 +202,7 @@ struct LoopingTab:View{
                     })
                         .onChange(of: recTimer.secondsElapsed) { _ in
                             print(num)
-                            if recTimer.secondsElapsed % 8 == 0{
+                            if recTimer.secondsElapsed % 8 == 0 && metronome == true{
                                 let sound = Bundle.main.path(forResource: "Click", ofType: "mp3")
                                 self.audioPlayer2 = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
                                 self.audioPlayer2.play()

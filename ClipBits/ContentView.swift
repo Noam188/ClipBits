@@ -138,7 +138,7 @@ struct ContentView: Identifiable, View{
                         ButtonReduced(slots: $slots, canRecord: $canRecord, oneIsRecording: $oneIsRecording, edit: $edit, num: $num, loopState: $loopState, oneIsLooping: $oneIsLooping,numOflinks: $numOflinks,canLink:$canLink, tempo: $tempo).environmentObject(stopWatchManager)
                             .padding()
                     }
-                    LoopingTab(oneIsLooping: $oneIsLooping, slot: $slots[findCurrentSlot()]).environmentObject(recTimer)
+                    LoopingTab(oneIsLooping: $oneIsLooping, slot: $slots[findCurrentSlot()], metronome: $metronome).environmentObject(recTimer)
                         .opacity(oneIsLooping ? 1 : 0)
                         .scaleEffect(oneIsLooping ? 1 : 0.01)
                         .animation(.easeInOut)

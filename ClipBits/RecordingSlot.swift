@@ -64,7 +64,7 @@ struct ButtonSlot: View {
                             print("works")
                             slot.beenRecorded = true
                             stopWatchManager.start()
-                            slot.beenRecordedDef.set(true, forKey: slot.id)
+                            UserDefaults.standard.set(true, forKey: slot.id)
                             oneIsRecording = true
                             slot.isRecording = true
                         }
@@ -88,7 +88,7 @@ struct ButtonSlot: View {
                             }
                         }
                     }.sheet(isPresented: $openSheet, content: {Presets(presetName: $slot.preset, openSheet: $openSheet)}).onReceive(slot.preset.publisher.first()){ _ in
-                        slot.presetDef.set(slot.preset, forKey: slot.id)
+                        UserDefaults.standard.set(slot.preset, forKey: "p\(slot.id)")
                     }
                     if slot.preset != "" || slot.beenRecorded == true{
                         ZStack{
@@ -149,12 +149,13 @@ struct ButtonSlot: View {
                         Button(action: {
                             audioRecorder.fetchRecording()
                             slot.preset = ""
-                            slot.presetDef.set("", forKey: slot.id)
+                            UserDefaults.standard.set("", forKey: "p\(slot.id)")
                             slot.beenRecorded = false
-                            slot.beenRecordedDef.set(false, forKey: slot.id)
+                            UserDefaults.standard.set(false, forKey: "b\(slot.id)")
+                            UserDefaults.standard.set(false, forKey: "l\(slot.id)")
                         }) {
                             Image(systemName: "trash.circle")
-                                .font(.system(size: 45))
+                                .font(.system(size: 40))
                                 .foregroundColor(.red)
                                 .background(Color(.white))
                                 .cornerRadius(100)
@@ -166,7 +167,7 @@ struct ButtonSlot: View {
                             print("toggled")
                         }) {
                             Image(systemName: "arrow.down.circle")
-                                .font(.system(size: 45))
+                                .font(.system(size: 40))
                                 .background(Color(.white))
                                 .cornerRadius(100)
                         }
@@ -191,7 +192,7 @@ struct ButtonSlot: View {
                         Button(action:{
                             loopWatch.stop()
                             slot.isLooping = false
-                            slot.isLoopingDef.set(false, forKey: slot.id)
+                            UserDefaults.standard.set(false, forKey: "l\(slot.id)")
                             if slot.audioPlayer.isPlaying{
                                 slot.audioPlayer.stopPlayback()
                             }
@@ -199,7 +200,7 @@ struct ButtonSlot: View {
                             itiration = 0
                             slot.loopArr = []
                             slot.isLooping = false
-                            slot.isLoopingDef.set(false, forKey: slot.id)
+                            UserDefaults.standard.set(false, forKey: "l\(slot.id)")
                         }){
                             Image(systemName: "xmark.circle")
                                 .foregroundColor(slot.isLooping ? .black : .gray)
@@ -211,9 +212,9 @@ struct ButtonSlot: View {
                         }
                         Button(action:{
                             slot.isLooping = true
-                            slot.isLoopingDef.set(true, forKey: slot.id)
+                            UserDefaults.standard.set(true, forKey: "l\(slot.id)")
                             slot.loopArr = [[Bool]]()
-                            slot.loopArrDef.set([[Bool]](), forKey: slot.id)
+                            UserDefaults.standard.set([[Bool]](), forKey: "arr\(slot.id)")
                             oneIsLooping = true
                             slot.loopEdit = true
                         }){

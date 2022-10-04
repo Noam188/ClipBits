@@ -21,10 +21,10 @@ struct Slot: Identifiable {
         isChecked = false
         isRecording = false
         isTrimming = false
-        beenRecorded = beenRecordedDef.bool(forKey: id)
-        isLooping = isLoopingDef.bool(forKey: id)
-        loopArr = (loopArrDef.object(forKey: self.id) as? [[Bool]]) ?? [[Bool]]()
-        preset = presetDef.string(forKey: self.id) ?? ""
+        beenRecorded = UserDefaults.standard.bool(forKey: "b\(self.id)")
+        isLooping = UserDefaults.standard.bool(forKey: "l\(self.id)")
+        loopArr = (UserDefaults.standard.object(forKey: "arr\(self.id)") as? [[Bool]]) ?? [[Bool]]()
+        preset = UserDefaults.standard.string(forKey: "p\(self.id)") ?? ""
         isLinked = [false,false,false,false]
     }
 }

@@ -33,6 +33,7 @@ struct BPM: View{
                     .cornerRadius(10)
                     .shadow(radius: 3)
                 Text("\(Int(tempo))")
+                    .foregroundColor(.black)
                     .font(.system(size: 30))
                     .fontWeight(.light)
                 
