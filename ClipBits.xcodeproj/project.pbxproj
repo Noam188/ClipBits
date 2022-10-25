@@ -10,6 +10,13 @@
 		3CE086A526EB0CA10013BB1A /* ClipBitsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE086A426EB0CA10013BB1A /* ClipBitsApp.swift */; };
 		C202428F278223BD00D362FD /* Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = C202428E278223BD00D362FD /* Start.swift */; };
 		C20266D626EA7FBE00BC9BF1 /* RecordingSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20266D526EA7FBE00BC9BF1 /* RecordingSlot.swift */; };
+		C2304EF82905B57A001F4198 /* AcoustTom2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2304EF62905B57A001F4198 /* AcoustTom2.mp3 */; };
+		C2304EF92905B57A001F4198 /* AcoustTom1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2304EF72905B57A001F4198 /* AcoustTom1.mp3 */; };
+		C231779F28FD9DCD00FF96CC /* Clap.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C231779E28FD9DCD00FF96CC /* Clap.mp3 */; };
+		C23177A128FD9DDF00FF96CC /* AcoustOpen.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C23177A028FD9DDF00FF96CC /* AcoustOpen.mp3 */; };
+		C23177A328FD9E0E00FF96CC /* AcoustSnare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C23177A228FD9E0E00FF96CC /* AcoustSnare.mp3 */; };
+		C23177A528FD9E1100FF96CC /* AcoustKick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C23177A428FD9E1100FF96CC /* AcoustKick.mp3 */; };
+		C23177A728FD9F9700FF96CC /* AcoustHi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C23177A628FD9F9700FF96CC /* AcoustHi.mp3 */; };
 		C240B5A427F01B4C0021C44A /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C240B5A327F01B4C0021C44A /* Timer.swift */; };
 		C2598FA327EF8B1A007011EA /* ControlPannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2598FA227EF8B1A007011EA /* ControlPannel.swift */; };
 		C263B13F26E07CC100E5E214 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C263B13E26E07CC100E5E214 /* ContentView.swift */; };
@@ -63,6 +70,13 @@
 		3CE086A426EB0CA10013BB1A /* ClipBitsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipBitsApp.swift; sourceTree = "<group>"; };
 		C202428E278223BD00D362FD /* Start.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Start.swift; sourceTree = "<group>"; };
 		C20266D526EA7FBE00BC9BF1 /* RecordingSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSlot.swift; sourceTree = "<group>"; };
+		C2304EF62905B57A001F4198 /* AcoustTom2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = AcoustTom2.mp3; path = ../../../Music/GarageBand/AcoustTom2.mp3; sourceTree = "<group>"; };
+		C2304EF72905B57A001F4198 /* AcoustTom1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = AcoustTom1.mp3; path = ../../../Music/GarageBand/AcoustTom1.mp3; sourceTree = "<group>"; };
+		C231779E28FD9DCD00FF96CC /* Clap.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Clap.mp3; path = ../../Clap.mp3; sourceTree = "<group>"; };
+		C23177A028FD9DDF00FF96CC /* AcoustOpen.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = AcoustOpen.mp3; path = ../../AcoustOpen.mp3; sourceTree = "<group>"; };
+		C23177A228FD9E0E00FF96CC /* AcoustSnare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = AcoustSnare.mp3; path = ../../AcoustSnare.mp3; sourceTree = "<group>"; };
+		C23177A428FD9E1100FF96CC /* AcoustKick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = AcoustKick.mp3; path = ../../AcoustKick.mp3; sourceTree = "<group>"; };
+		C23177A628FD9F9700FF96CC /* AcoustHi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = AcoustHi.mp3; path = ../../AcoustHi.mp3; sourceTree = "<group>"; };
 		C240B5A327F01B4C0021C44A /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		C2598FA227EF8B1A007011EA /* ControlPannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPannel.swift; sourceTree = "<group>"; };
 		C263B13926E07CC100E5E214 /* ClipBits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipBits.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,6 +163,13 @@
 				C29C764C28642018005DBCDA /* Snare.mp3 */,
 				C29C764A2864200D005DBCDA /* Hi-Hat.mp3 */,
 				C29C765028642027005DBCDA /* Open-Hi.mp3 */,
+				C231779E28FD9DCD00FF96CC /* Clap.mp3 */,
+				C23177A028FD9DDF00FF96CC /* AcoustOpen.mp3 */,
+				C23177A428FD9E1100FF96CC /* AcoustKick.mp3 */,
+				C2304EF72905B57A001F4198 /* AcoustTom1.mp3 */,
+				C2304EF62905B57A001F4198 /* AcoustTom2.mp3 */,
+				C23177A228FD9E0E00FF96CC /* AcoustSnare.mp3 */,
+				C23177A628FD9F9700FF96CC /* AcoustHi.mp3 */,
 				C2B332832862A54D00DFB833 /* Beep.mp3 */,
 				C2B332772862A0D000DFB833 /* Click.mp3 */,
 				3CE086A426EB0CA10013BB1A /* ClipBitsApp.swift */,
@@ -306,13 +327,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2304EF92905B57A001F4198 /* AcoustTom1.mp3 in Resources */,
+				C23177A328FD9E0E00FF96CC /* AcoustSnare.mp3 in Resources */,
+				C2304EF82905B57A001F4198 /* AcoustTom2.mp3 in Resources */,
+				C23177A528FD9E1100FF96CC /* AcoustKick.mp3 in Resources */,
+				C231779F28FD9DCD00FF96CC /* Clap.mp3 in Resources */,
 				C263B14426E07CC400E5E214 /* Preview Assets.xcassets in Resources */,
 				C29C765128642027005DBCDA /* Open-Hi.mp3 in Resources */,
 				C2B332782862A0D000DFB833 /* Click.mp3 in Resources */,
 				C29C764D28642018005DBCDA /* Snare.mp3 in Resources */,
+				C23177A128FD9DDF00FF96CC /* AcoustOpen.mp3 in Resources */,
 				C2B332842862A54D00DFB833 /* Beep.mp3 in Resources */,
 				C263B14126E07CC400E5E214 /* Assets.xcassets in Resources */,
 				C29C764F2864201D005DBCDA /* Kick.mp3 in Resources */,
+				C23177A728FD9F9700FF96CC /* AcoustHi.mp3 in Resources */,
 				C29C764B2864200D005DBCDA /* Hi-Hat.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

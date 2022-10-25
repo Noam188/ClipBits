@@ -9,7 +9,7 @@ struct Slot: Identifiable {
     var loopEdit = false
     var loopArr = [[Bool]]()
     var isLooping = false
-    var preset = ""
+    var preset:String
     var isLinked = [false,false,false,false]
     var loopArrDef = UserDefaults.standard
     var presetDef = UserDefaults.standard
@@ -27,4 +27,15 @@ struct Slot: Identifiable {
         preset = UserDefaults.standard.string(forKey: "p\(self.id)") ?? ""
         isLinked = [false,false,false,false]
     }
+//    func clear(){
+//        loopEdit = false
+//        self.isChecked = false
+//        self.isRecording = false
+//        self.isTrimming = false
+//        self.beenRecorded = false
+//        self.isLooping = false
+//        self.loopArr = [[Bool]]()
+//        self.preset = ""
+//        self.isLinked = [false,false,false,false]
+//    }
 }

@@ -156,7 +156,7 @@ struct LoopingTab:View{
                             .shadow(radius: 3)
                         if slot.preset != ""{
                             Image(slot.preset).resizable()
-                                .padding(.vertical)
+                                .padding(.vertical,40)
                         } else {
                             Image(systemName: "waveform")
                                 .foregroundColor(.black )

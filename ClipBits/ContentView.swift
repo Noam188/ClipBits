@@ -18,7 +18,7 @@ struct ContentView: Identifiable, View{
     @State var editLink = true
     @State var canLink = [false,false,false,false]
     @State var areLinking = [false,false,false,false]
-    @State var tempo = 120
+    @State var tempo:Int
     func atLeastOne()->Bool{
         for index in slots.indices {
             if slots[index].isLinked[numOflinks]{
@@ -46,6 +46,18 @@ struct ContentView: Identifiable, View{
     ]
     init(id:String){
         self.id = id
+        if UserDefaults.standard.integer(forKey: "tempo") == 0{
+            self.tempo = 120
+            UserDefaults.standard.set(120, forKey: "tempo")
+        }
+        self.tempo = UserDefaults.standard.integer(forKey: "tempo")
+//        var emptyArr = [Slot]()
+//        for i in 0...11{
+//            emptyArr.append(Slot(id: "slot\(i)+\(id)"))
+//        }
+//        slots = emptyArr
+        print(tempo)
+        print(UserDefaults.standard.integer(forKey: "tempo"))
     }
     func checkAvailable()->Bool{
         for index in slots.indices {

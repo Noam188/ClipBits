@@ -8,6 +8,7 @@ struct Presets: View{
             ScrollView{
                 ZStack{
                 VStack{
+                    Text("Electronic")
                     HStack{
                         Preset(name: "Snare", text: "Snare", presetName: $presetName, openSheet: $openSheet)
                         Spacer()
@@ -17,6 +18,27 @@ struct Presets: View{
                         Preset(name: "Hi-Hat", text: "Hi-hat", presetName: $presetName, openSheet: $openSheet)
                         Spacer()
                         Preset(name: "Open-Hi", text: "Open Hi-hat", presetName: $presetName, openSheet: $openSheet)
+                    }.padding(.horizontal,15)
+                    Text("Acoustic")
+                    HStack{
+                        Preset(name: "AcoustSnare", text: "Snare", presetName: $presetName, openSheet: $openSheet)
+                        Spacer()
+                        Preset(name: "AcoustKick", text: "Kick drum", presetName: $presetName, openSheet: $openSheet)
+                    }.padding(.horizontal,15)
+                    HStack{
+                        Preset(name: "AcoustHi", text: "Hi-hat", presetName: $presetName, openSheet: $openSheet)
+                        Spacer()
+                        Preset(name: "AcoustOpen", text: "Open Hi-hat", presetName: $presetName, openSheet: $openSheet)
+                    }.padding(.horizontal,15)
+                    HStack{
+                        Preset(name: "AcoustTom1", text: "Tom 1", presetName: $presetName, openSheet: $openSheet)
+                        Spacer()
+                        Preset(name: "AcoustTom2", text: "Tom 2", presetName: $presetName, openSheet: $openSheet)
+                    }.padding(.horizontal,15)
+                    Text("Other")
+                    HStack{
+                        Preset(name: "Clap", text: "Clap", presetName: $presetName, openSheet: $openSheet)
+                        Spacer()
                     }.padding(.horizontal,15)
                 }.padding(.top)
                 }

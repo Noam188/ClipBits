@@ -11,7 +11,7 @@ import SwiftUI
 struct ClipBitsApp: App {
     var body: some Scene {
         WindowGroup {
-            Start()
+            ContentView(id: "kjkj")
         }
     }
 }

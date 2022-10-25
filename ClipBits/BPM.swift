@@ -9,9 +9,14 @@ struct BPM: View{
     var body: some View {
         HStack{
             Button(action: {
-                tempo -= 1
-                stopWatchManager.tempo -= 1
-                recTimer.tempo -= 1
+                if tempo > 0{
+                    tempo -= 1
+                    stopWatchManager.tempo -= 1
+                    recTimer.tempo -= 1
+                    UserDefaults.standard.set(tempo, forKey: "tempo")
+                    print(tempo)
+                    print(UserDefaults.standard.integer(forKey: "tempo"))
+                }
             }) {
                 ZStack{
                     Triangle()
@@ -39,9 +44,12 @@ struct BPM: View{
                 
             }.frame(width: 75, height: 75)
             Button(action: {
-                tempo += 1
-                stopWatchManager.tempo += 1
-                recTimer.tempo += 1
+                    tempo += 1
+                    stopWatchManager.tempo += 1
+                    recTimer.tempo += 1
+                    UserDefaults.standard.set(tempo, forKey: "tempo")
+                    print(tempo)
+                    print(UserDefaults.standard.integer(forKey: "tempo"))
             }) {
                 ZStack{
                     Triangle()

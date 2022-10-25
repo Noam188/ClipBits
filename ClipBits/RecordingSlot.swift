@@ -154,7 +154,7 @@ struct ButtonSlot: View {
                             UserDefaults.standard.set(false, forKey: "b\(slot.id)")
                             UserDefaults.standard.set(false, forKey: "l\(slot.id)")
                         }) {
-                            Image(systemName: "trash.circle")
+                            Image(systemName: "trash.circle.fill")
                                 .font(.system(size: 40))
                                 .foregroundColor(.red)
                                 .background(Color(.white))
@@ -166,7 +166,7 @@ struct ButtonSlot: View {
                             openSheet = true
                             print("toggled")
                         }) {
-                            Image(systemName: "arrow.down.circle")
+                            Image(systemName: "arrow.down.circle.fill")
                                 .font(.system(size: 40))
                                 .background(Color(.white))
                                 .cornerRadius(100)
@@ -202,7 +202,7 @@ struct ButtonSlot: View {
                             slot.isLooping = false
                             UserDefaults.standard.set(false, forKey: "l\(slot.id)")
                         }){
-                            Image(systemName: "xmark.circle")
+                            Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(slot.isLooping ? .black : .gray)
                                 .font(.system(size: 40))
                                 .background(Color(.white))
@@ -211,6 +211,7 @@ struct ButtonSlot: View {
                             
                         }
                         Button(action:{
+                            loopWatch.stop()
                             slot.isLooping = true
                             UserDefaults.standard.set(true, forKey: "l\(slot.id)")
                             slot.loopArr = [[Bool]]()
@@ -223,7 +224,6 @@ struct ButtonSlot: View {
                                 .font(.system(size: 40))
                                 .background(Color(.white))
                                 .cornerRadius(100)
-                            
                         }
                     }
                     HStack(spacing:1){
@@ -235,13 +235,13 @@ struct ButtonSlot: View {
                             num = 0
                             itiration = 0
                         }){
-                            Image(systemName: "stop.circle")
+                            Image(systemName: "stop.circle.fill")
                                 .foregroundColor(loopWatch.isRunning ? .black : .gray)
                                 .font(.system(size: 40))
                                 .background(Color(.white))
                                 .cornerRadius(100)
                         }
-                        Image(systemName: "play.circle")
+                        Image(systemName: "play.circle.fill")
                             .foregroundColor(slot.isLooping ? .black  : .gray)
                             .font(.system(size: 40))
                             .background(Color(.white))
